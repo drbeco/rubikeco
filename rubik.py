@@ -78,6 +78,220 @@ def ui(r): #rotacao up anti-horario
   r[5][0]=fb[0]
   r[5][1]=fb[1]
   r[5][2]=fb[2]
+
+def ui(c): #rotacao up anti-horario
+  u(c)
+  u(c)
+  u(c)
+ 
+def d(c): #rotacao down horario
+  fu=c[up][:] #up = white -  nao muda
+  fd=c[down][:] #down = yellow
+  ff=c[front][:] #front = red
+  fb=c[back][:] #back = orange
+  fr=c[right][:] #right = blue
+  fl=c[left][:] #left = green
+  #up #nada muda
+  #down   
+  c[down][0]=fd[6]
+  c[down][1]=fd[3]
+  c[down][2]=fd[0]
+  c[down][3]=fd[7]
+  c[down][4]=fd[4]
+  c[down][5]=fd[1]
+  c[down][6]=fd[8]
+  c[down][7]=fd[5]
+  c[down][8]=fd[2]
+  #front
+  c[front][6]=fl[6]
+  c[front][7]=fl[7]
+  c[front][8]=fl[8]
+  #back
+  c[back][6]=fr[6]
+  c[back][7]=fr[7]
+  c[back][8]=fr[8]
+  #right
+  c[right][6]=ff[6]
+  c[right][7]=ff[7]
+  c[right][8]=ff[8]
+  #left
+  c[left][6]=fb[6]
+  c[left][7]=fb[7]
+  c[left][8]=fb[8]
+
+def di(c): #rotacao down anti-horario
+  d(c)
+  d(c)
+  d(c)
+
+def f(c): #rotacao front horario
+  fu=c[up][:] #up = white
+  fd=c[down][:] #down = yellow
+  ff=c[front][:] #front = red
+  fb=c[back][:] #back = orange - nao muda
+  fr=c[right][:] #right = blue
+  fl=c[left][:] #left = green
+  #up
+  c[up][6]=fl[8]
+  c[up][7]=fl[5]
+  c[up][8]=fl[2]
+  #down
+  c[down][0]=fr[6]
+  c[down][1]=fr[3]
+  c[down][2]=fr[0]
+  #front
+  c[front][0]=ff[6]
+  c[front][1]=ff[3]
+  c[front][2]=ff[0]
+  c[front][3]=ff[7]
+  c[front][4]=ff[4]
+  c[front][5]=ff[1]
+  c[front][6]=ff[8]
+  c[front][7]=ff[5]
+  c[front][8]=ff[2]
+  #back  #nada muda
+  #right
+  c[right][0]=fu[6]
+  c[right][3]=fu[7]
+  c[right][6]=fu[8]
+  #left
+  c[left][2]=fd[0]
+  c[left][5]=fd[1]
+  c[left][8]=fd[2]
+
+def fi(c): #rotacao front anti-horario
+  f(c)
+  f(c)
+  f(c)
+
+def b(c): #rotacao back horario
+  fu=c[up][:] #up = white
+  fd=c[down][:] #down = yellow
+  ff=c[front][:] #front = red - nao muda
+  fb=c[back][:] #back = orange
+  fr=c[right][:] #right = blue
+  fl=c[left][:] #left = green
+  #up 0
+  c[up][0]=fr[2]
+  c[up][1]=fr[5]
+  c[up][2]=fr[8]
+  #down 1
+  c[down][6]=fl[0]
+  c[down][7]=fl[3]
+  c[down][8]=fl[6]
+  #front 2 #nada muda
+  #back 3
+  c[back][0]=fb[6]
+  c[back][1]=fb[3]
+  c[back][2]=fb[0]
+  c[back][3]=fb[7]
+  c[back][4]=fb[4]
+  c[back][5]=fb[1]
+  c[back][6]=fb[8]
+  c[back][7]=fb[5]
+  c[back][8]=fb[2]
+  #right 4
+  c[right][2]=fd[8]
+  c[right][5]=fd[7]
+  c[right][8]=fd[6]
+  #left 5
+  c[left][0]=fu[2]
+  c[left][3]=fu[1]
+  c[left][6]=fu[0]
+
+def bi(c): #rotacao back anti-horario
+  b(c)
+  b(c)
+  b(c)
+
+def r(c): #rotacao right horario
+  fu=c[up][:]    #face up    = white
+  fd=c[down][:]  #face down  = yellow
+  ff=c[front][:] #face front = red
+  fb=c[back][:]  #face back  = orange
+  fr=c[right][:] #face right = blue
+  fl=c[left][:]  #face left  = green - nao muda
+  #up
+  c[up][2]=ff[2]
+  c[up][5]=ff[5]
+  c[up][8]=ff[8]
+  #down
+  c[down][8]=fb[0]
+  c[down][5]=fb[3]
+  c[down][2]=fb[6]
+  #front
+  c[front][2]=fd[2]
+  c[front][5]=fd[5]
+  c[front][8]=fd[8]
+  #back
+  c[back][0]=fu[8]
+  c[back][3]=fu[5]
+  c[back][6]=fu[2]
+  #right
+  c[right][0]=fr[6]
+  c[right][1]=fr[3]
+  c[right][2]=fr[0]
+  c[right][3]=fr[7]
+  c[right][4]=fr[4]
+  c[right][5]=fr[1]
+  c[right][6]=fr[8]
+  c[right][7]=fr[5]
+  c[right][8]=fr[2]
+  #left #nada muda
+
+def ri(c): #rotacao right anti-horario
+  r(c)
+  r(c)
+  r(c)
+
+def l(c): #rotacao left horario
+  fu=c[up][:]    #face up    = white
+  fd=c[down][:]  #face down  = yellow
+  ff=c[front][:] #face front = red
+  fb=c[back][:]  #face back  = orange
+  fr=c[right][:] #face right = blue - nao muda
+  fl=c[left][:]  #face left  = green
+  #up
+  c[up][0]=fb[8]
+  c[up][3]=fb[5]
+  c[up][6]=fb[2]
+  #down
+  c[down][0]=ff[0]
+  c[down][3]=ff[3]
+  c[down][6]=ff[6]
+  #front
+  c[front][0]=fu[0]
+  c[front][3]=fu[3]
+  c[front][6]=fu[6]
+  #back
+  c[back][2]=fd[6]
+  c[back][5]=fd[3]
+  c[back][8]=fd[0]
+  #right #nada muda
+  #left
+  c[left][0]=fl[6]
+  c[left][1]=fl[3]
+  c[left][2]=fl[0]
+  c[left][3]=fl[7]
+  c[left][4]=fl[4]
+  c[left][5]=fl[1]
+  c[left][6]=fl[8]
+  c[left][7]=fl[5]
+  c[left][8]=fl[2]
+
+def li(c): #rotacao left anti-horario
+  l(c)
+  l(c)
+  l(c)
+
+#Rotacoes duplas: u2, d2, f2, b2, r2, l2, mx2, my2, mz2, cx2, cy2, cz2
+#Nesta versao falta: (todo)
+#Rotacionar o cubo inteiro
+#Cx, Cxi, Cy, Cyi, Cz, Czi
+#Rotacoes da camada do meio:
+#mx, mxi, my, myi, mz, mzi
+#Rotacoes duplas: mx2, my2, mz2, cx2, cy2, cz2
+
   
 def main():
   print('Entre com a posicao atual')
