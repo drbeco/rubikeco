@@ -372,6 +372,77 @@ def embaralha(c, n):
     n=n-1
   print()
 
+def soluciona(c, acoes):
+  for s in acoes:
+    acao[s](c)
+
+def buscarec(o, c, nmax, natual, acoes):
+  """
+    Funcao recursiva para buscar os nos. Esta e a funcao mais importante do problema.
+    - Recebe o cubo objeto o, o cubo a ser analisado c, o nivel maximo a se adentrar,
+    o nivel atual que esta olhando, e a lista de acoes para a solucao do problema
+    - Retorna o numero de nos procurados, e atualiza a lista de acoes para o problema
+  """
+  global achou, nos
+  natual = natual + 1
+  if natual > nmax:
+    return 0
+  for a in range(0, MAXACAO):
+    t=deepcopy(c)
+    acao[a](t)
+    nos = nos + 1
+    if t == o: #achou
+      achou = 1
+    if achou: #achou neste nivel
+      acoes.append(a)
+      break
+    else:
+      q = deepcopy(t)
+      buscarec(o, q, nmax, natual, acoes) #Busca recursiva neste no da arvore. Retorna na linha de baixo.
+      if achou: #achou no nivel de baixo
+        acoes.append(a)
+        break
+  return nos
+
+def buscar(o, c, nmax, acoes):
+  """
+    Função que marca o tempo de trabalho da função buscarec()
+    retorna tempo, nos
+  """
+  tini=time()
+  global achou, nos
+  achou = nos = 0
+  t=deepcopy(c)
+  nos = buscarec(o, t, nmax, 0, acoes)
+  acoes.reverse()
+  return time()-tini, nos
+
+def busca(o, c, nmax, acoes):
+  """
+    Função de interface com o programa principal main().
+    Recebe o cubo objetivo o, o cubo embaralhado c, o nível máximo a procurar, e a lista de ações da solução vazia.
+    Retorna o tempo total, o número de nodos total e as ações para a solução
+    Chama a função buscar, com diferentes n
+  """
+  ttotal = ntotal = 0
+  for n in range(1, nmax+1):
+    print('Iniciando busca em %2d' % n, end="")
+    if n==1:
+      print(' nivel. ', end='')
+    else:
+      print(' niveis.', end='')
+    tempo, nodos = buscar(o, c, n, acoes)
+    ttotal += tempo
+    ntotal += nodos
+    print(' Tempo: %10.3f' % tempo, 's', 'Nodos: %10d' % nodos, end='')
+    if acoes!=[]:
+      print(' Solucao!')
+      break
+    else:
+      print(' Sem solucao.')
+  return ttotal, ntotal
+
+
 def main():
   print('Entre com a posicao atual')
   obj =   [['w','w','w','w','w','w','w','w','w'],
