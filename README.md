@@ -1,4 +1,4 @@
-# Rubik Simulator
+# Rubikeco Rubik's Cube Simulator
 
 ## Introduction
 
