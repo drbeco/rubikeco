@@ -1,20 +1,19 @@
-# Program Name / repository name
+# Rubik Simulator
 
 ## Introduction
 
-* Colocar aqui uma breve explicação do programa
-* Explicar o processamento
+* Run Rubik's cube methods in a simulation to help understand and compare all of them in a statistically scientific way.
 
 ## Usage
 
-* Colocar aqui a sintáxe de uso do programa
-* Entradas esperadas
-* Saída produzida
-
-## Examples
-
-* Colocar aqui alguns exemplos
-* Casos de uso
+* Run as:
+* `./rubik method size`, where:
+    - method is one of:
+        + Layers
+        + Corners
+        + Roux
+        + Petrus
+    - size is an integer number with how many turns to shuffle
 
 ## Author
 
