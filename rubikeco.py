@@ -285,7 +285,125 @@ def li(c): #rotacao left anti-horario
   l(c)
   l(c)
 
-#Rotacoes duplas: u2, d2, f2, b2, r2, l2, mx2, my2, mz2, cx2, cy2, cz2
+#Rotacionar o cubo inteiro
+#Cx, Cxi, Cy, Cyi, Cz, Czi
+#  rubik = [ U = ['w','w','w','w','w','w','w','w','w'],
+#            D = ['y','y','y','y','y','y','y','y','y'],
+#            F = ['r','r','r','r','r','r','r','r','r'],
+#            B = ['o','o','o','o','o','o','o','o','o'],
+#            R = ['b','b','b','b','b','b','b','b','b'],
+#            L = ['g','g','g','g','g','g','g','g','g']]
+
+#Cx: cubo tomba para tras
+#Cy: cubo gira na mesa
+#Cz: cubo gira tomba para direita
+
+def cx(c): #rotacao do cubo inteiro, eixo x, horario (cubo tomba para trás)
+  fu=c[up][:]    #face up    = white
+  fd=c[down][:]  #face down  = yellow
+  ff=c[front][:] #face front = red
+  fb=c[back][:]  #face back  = orange
+  fr=c[right][:] #face right = blue - nao muda
+  fl=c[left][:]  #face left  = green
+#  nc = [ff, fb, fd, fu, fr, fl]
+#  c = deepcopy(nc)
+  c[up]   =ff
+  #print('teste')
+  #print (fb)
+  fb.reverse()
+  c[down] =fb
+  c[front]=fd
+  fu.reverse()
+  c[back] =fu
+  c[right]=fr #bug
+  c[left] =fl #bug
+  #print('De dentro de cx:------------------')
+  #imprime(c)
+
+def cxi(c): #rotacao do cubo inteiro, eixo x, anti-horario (cubo tomba para frente)
+  cx(c)
+  cx(c)
+  cx(c)
+
+def cy(c): #rotacao do cubo inteiro, eixo y, horario (cubo gira na mesa)
+  fu=c[up][:]    #face up    = white
+  fd=c[down][:]  #face down  = yellow
+  ff=c[front][:] #face front = red
+  fb=c[back][:]  #face back  = orange
+  fr=c[right][:] #face right = blue - nao muda
+  fl=c[left][:]  #face left  = green
+#  nc = [fu, fd, fr, fl, fb, ff]
+#  c = deepcopy(nc)
+  c[up]   =fu
+  c[down] =fd
+  c[front]=fr
+  c[back] =fl
+  c[right]=fb
+  c[left] =ff
+
+def cyi(c): #rotacao do cubo inteiro, eixo y, anti-horario (cubo gira na mesa)
+  cy(c)
+  cy(c)
+  cy(c)
+
+def cz(c): #rotacao do cubo inteiro, eixo z, horario (cubo tomba para direita)
+  fu=c[up][:]    #face up    = white
+  fd=c[down][:]  #face down  = yellow
+  ff=c[front][:] #face front = red
+  fb=c[back][:]  #face back  = orange
+  fr=c[right][:] #face right = blue - nao muda
+  fl=c[left][:]  #face left  = green
+#  nc = [fl, fr, ff, fb, fu, fd]
+#  c = deepcopy(nc)
+  c[up]   =fl
+  c[down] =fr
+  c[front]=ff
+  c[back] =fb
+  c[right]=fu
+  c[left] =fd
+
+def czi(c): #rotacao do cubo inteiro, eixo z, anti-horario (cubo tomba para esquerda)
+  cz(c)
+  cz(c)
+  cz(c)
+
+#rotacoes da camada do meio:
+# mx: ril; mxi: rli
+# my: uid; myi: udi
+# mz: fib; mzi: fbi
+
+def mx(c): #rotacao da camada do meio, eixo x, horario
+  ri(c)
+  l(c)
+  cx(c)
+
+def mxi(c): #rotacao da camada do meio, eixo x, anti-horario
+  r(c)
+  li(c)
+  cxi(c)
+
+def my(c): #rotacao da camada do meio, eixo y, horario
+  ui(c)
+  d(c)
+  cy(c)
+
+def myi(c): #rotacao da camada do meio, eixo y, anti-horario
+  u(c)
+  di(c)
+  cyi(c)
+
+def mz(c): #rotacao da camada do meio, eixo z, horario
+  fi(c)
+  b(c)
+  cz(c)
+
+def mzi(c): #rotacao da camada do meio, eixo z, anti-horario
+  f(c)
+  bi(c)
+  czi(c)
+
+#rotacoes duplas: u2, d2, f2, b2, r2, l2, mx2, my2, mz2, cx2, cy2, cz2
+
 def u2(c): #rotacao dupla de cima
   u(c)
   u(c)
@@ -310,57 +428,57 @@ def l2(c): #rotacao dupla da esquerda
   l(c)
   l(c)
 
-#Rotacoes da camada do meio:
-#mx, mxi, my, myi, mz, mzi
+def mx2(c): #rotacao dupla da camada do meio, eixo x
+  mx(c)
+  mx(c)
 
-#Rotacionar o cubo inteiro
-#Cx, Cxi, Cy, Cyi, Cz, Czi
+def my2(c): #rotacao dupla da camada do meio, eixo y
+  my(c)
+  my(c)
 
-#Cx: cubo tomba para tras
-def cx(c):
-  fu=c[up][:]    #face up    = white
-  fd=c[down][:]  #face down  = yellow
-  ff=c[front][:] #face front = red
-  fb=c[back][:]  #face back  = orange
-  fr=c[right][:] #face right = blue - nao muda
-  fl=c[left][:]  #face left  = green 
-  #up
-  c[up][0]=fb[8]
-  c[up][3]=fb[5]
-  c[up][6]=fb[2]
-  #down
-  c[down][0]=ff[0]
-  c[down][3]=ff[3]
-  c[down][6]=ff[6]
-  #front
-  c[front][0]=fu[0]
-  c[front][3]=fu[3]
-  c[front][6]=fu[6]
-  #back
-  c[back][2]=fd[6]
-  c[back][5]=fd[3]
-  c[back][8]=fd[0]
-  #right
-  c[right][2]=fd[8]
-  c[right][5]=fd[7]
-  c[right][8]=fd[6]
-  #left
-  c[left][0]=fl[6]
-  c[left][1]=fl[3]
-  c[left][2]=fl[0]
-  c[left][3]=fl[7]
-  c[left][4]=fl[4]
-  c[left][5]=fl[1]
-  c[left][6]=fl[8]
-  c[left][7]=fl[5]
-  c[left][8]=fl[2]
+def mz2(c): #rotacao dupla da camada do meio, eixo z
+  mz(c)
+  mz(c)
 
-#Cy: cubo gira na mesa
+def cx2(c): #rotacao dupla do cubo inteiro, eixo x
+  cx(c)
+  cx(c)
 
-#Cz: cubo gira tomba para direita
+def cy2(c): #rotacao dupla do cubo inteiro, eixo y
+  cy(c)
+  cy(c)
 
-acao=[u, ui, d, di, f, fi, b, bi, r, ri, l, li, u2, d2, f2, b2, r2, l2, cx]
-nacao=['U', 'Ui', 'D', 'Di', 'F', 'Fi', 'B', 'Bi', 'R', 'Ri', 'L', 'Li', 'U2', 'D2', 'F2', 'B2', 'R2', 'L2', 'CX']
+def cz2(c): #rotacao dupla do cubo inteiro, eixo z
+  cz(c)
+  cz(c)
+
+#Manobras
+#S1:  #E2:   Ri U Fi Ui                      #cruz branca
+#S2:  #E3:   Ri Di R D                       #cantos brancos
+#S3:  #E41:  U R Ui Ri Ui Fi U F             #mover horario
+#S4:  #E42:  Ui Li U L U F Ui Fi             #mover anti-horario
+#S5:  #E511: F U R Ui Ri Fi                  #amarelo no centro, ou L
+#S6:  #E512: F R U Ri Ui Fi                  #reta amarela
+#S7:  #E521: R U Ri U R U U Ri               #subir os cantos amarelos
+#S8:  #E522: Li Ui L Ui Li Ui Ui L           #subir os cantos amarelos espelhado
+#S9:  #E61:  Ri F Ri B B R Fi Ri B B R R Ui  #corrigir os cantos amarelos
+#S10: #E621: F F U L Ri F F Li R U F F       #rodar arestas horario
+#S11: #E622: F F Ui L Ri F F Li R Ui F F     #rodar arestas anti-horario
+
+# rotacao nos eixos
+# x=r=li=mi
+# y=u=di=ei
+# z=f=bi=s
+
+
+acao=[u, ui, d, di, f, fi, b, bi, r, ri, l, li,
+      mx, mxi, my, myi, mz, mzi,
+      cx, cxi, cy, cyi, cz, czi,
+      u2, d2, f2, b2, r2, l2, mx2, my2, mz2, cx2, cy2, cz2]
+nacao=['U', 'Ui', 'D', 'Di', 'F', 'Fi', 'B', 'Bi', 'R', 'Ri', 'L', 'Li',
+       'Mx', 'Mxi', 'My', 'Myi', 'Mz', 'Mzi',
+       'Cx', 'Cxi', 'Cy', 'Cyi', 'Cz', 'Czi',
+       'U2', 'D2', 'F2', 'B2', 'R2', 'L2', 'Mx2', 'My2', 'Mz2', 'Cx2', 'Cy2', 'Cz2']
 MAXACAO=len(acao)
 
 def embaralha(c, n):
@@ -447,6 +565,7 @@ def busca(o, c, nmax, acoes):
 
 
 def main():
+  #print('Entre com a posicao atual')
   nivel = 2
   if len(sys.argv) == 1:
     print('Embaralhando com nivel 2.')
@@ -464,54 +583,134 @@ def main():
         ['o','o','o','o','o','o','o','o','o'],
         ['b','b','b','b','b','b','b','b','b'],
         ['g','g','g','g','g','g','g','g','g']]
-  #teste = [['0w','1w','2w','3w','4w','5w','6w','7w','8w'],
+  #cubo = [['0w','1w','2w','3w','4w','5w','6w','7w','8w'],
         #['0y','1y','2y','3y','4y','5y','6y','7y','8y'],
         #['0r','1r','2r','3r','4r','5r','6r','7r','8r'],
         #['0o','1o','2o','3o','4o','5o','6o','7o','8o'],
         #['0b','1b','2b','3b','4b','5b','6b','7b','8b'],
         #['0g','1g','2g','3g','4g','5g','6g','7g','8g']]
-  #obj = copy.deepcopy(teste)
+  #obj = copy.deepcopy(cubo)
   # U  B  Li  B  L
-  #print('Aplicando rotacao u(teste)...')
+  #print('Aplicando rotacao u(cubo)...')
+  #back=0; left=1; up=2; right=3; down=4; front=5; 
+  rubik = [['0o','1o','2o','3o','4o','5o','6o','7o','8o'],
+        ['0g','1g','2g','3g','4g','5g','6g','7g','8g'],
+        ['0w','1w','2w','3w','4w','5w','6w','7w','8w'],
+        ['0b','1b','2b','3b','4b','5b','6b','7b','8b'],
+        ['0y','1y','2y','3y','4y','5y','6y','7y','8y'],
+        ['0r','1r','2r','3r','4r','5r','6r','7r','8r']]
   #u(obj)
   #imprime(obj)
-  #obj = copy.deepcopy(teste)
-  #print('Aplicando rotacao ui(teste)...')
+  #obj = copy.deepcopy(cubo)
+  #print('Aplicando rotacao ui(cubo)...')
   #ui(obj)
   #imprime(obj)
-  #obj = copy.deepcopy(teste)
-  #print('Aplicando rotacao d(teste)...')
+  #obj = copy.deepcopy(cubo)
+  #print('Aplicando rotacao d(cubo)...')
   #d(obj)
   #imprime(obj)
-  #obj = copy.deepcopy(teste)
-  #print('Aplicando rotacao f(teste)...')
+  #obj = copy.deepcopy(cubo)
+  #print('Aplicando rotacao f(cubo)...')
   #f(obj)
   #imprime(obj)
-  #obj = copy.deepcopy(teste)
-  #print('Aplicando rotacao b(teste)...')
+  #obj = copy.deepcopy(cubo)
+  #print('Aplicando rotacao b(cubo)...')
   #b(obj)
   #imprime(obj)
-  #obj = copy.deepcopy(teste)
-  #print('Aplicando rotacao r(teste)...')
+  #obj = copy.deepcopy(cubo)
+  #print('Aplicando rotacao r(cubo)...')
   #r(obj)
   #imprime(obj)
-  #obj = copy.deepcopy(teste)
-  #print('Aplicando rotacao l(teste)...')
+  #obj = copy.deepcopy(cubo)
+  #print('Aplicando rotacao l(cubo)...')
   #l(obj)
   #imprime(obj)
 
   obj = deepcopy(rubik)
   print('Antes de embaralhar:')
   imprime(obj)
-  embaralha(rubik, nivel)
+  #embaralha(rubik, nivel)
   print('Depois de embaralhado:')
+
+ #R  Cx  Cxi  Cz2
+  print('antes')
   imprime(rubik)
+  print('u')
+  u(rubik)
+  imprime(rubik)
+  print('r')
+  r(rubik)
+  imprime(rubik)
+  cx(rubik)
+  print('cx')
+  imprime(rubik)
+  cxi(rubik)
+  print('cxi')
+  imprime(rubik)
+  cz2(rubik)
+  imprime(rubik)
+  #rubik = deepcopy(obj)
+  #mx(rubik)
+  #print('mx')
+  #imprime(rubik)
+  #rubik = deepcopy(obj)
+  #mxi(rubik)
+  #print('mxi')
+  #imprime(rubik)
+  #rubik = deepcopy(obj)
+  #my(rubik)
+  #print('my')
+  #imprime(rubik)
+  #rubik = deepcopy(obj)
+  #myi(rubik)
+  #print('myi')
+  #imprime(rubik)
+  #rubik = deepcopy(obj)
+  #mz(rubik)
+  #print('mz')
+  #imprime(rubik)
+  #rubik = deepcopy(obj)
+  #mzi(rubik)
+  #print('mzi')
+  #imprime(rubik)
+
+
+#rodar cubo todo
+#       'Cx', 'Cxi', 'Cy', 'Cyi', 'Cz', 'Czi',
+
+  #rubik = deepcopy(obj)
+  #cx(rubik)
+  #print('cx')
+  #imprime(rubik)
+  #rubik = deepcopy(obj)
+  #cxi(rubik)
+  #print('cxi')
+  #imprime(rubik)
+  #rubik = deepcopy(obj)
+  #cy(rubik)
+  #print('cy')
+  #imprime(rubik)
+  #rubik = deepcopy(obj)
+  #cyi(rubik)
+  #print('cyi')
+  #imprime(rubik)
+  #rubik = deepcopy(obj)
+  #cz(rubik)
+  #print('cz')
+  #imprime(rubik)
+  #rubik = deepcopy(obj)
+  #czi(rubik)
+  #print('czi')
+  #imprime(rubik)
+  #rubik = deepcopy(obj)
+
 
   #buscar solucao
   print('Calculando solucao...')
   acoes=[]
-  tempo, nodos = buscar(obj, rubik, 8, acoes)
-  
+  #tempo, nodos = buscar(obj, rubik, 8, acoes)
+  tempo, nodos = busca(obj, rubik, 8, acoes)
+
   print('Tempo total: %10.3f' % tempo, 's', ' Nodos: ', nodos, ' Nodos/s: %.3f' % (nodos/tempo))
   print('Solucao:')
   for i in acoes:
