@@ -1,3 +1,69 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Installer
+*.manifest
+*.spec
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+
+# Docs and Stuff
+local_settings.py
+instance/
+.webassets-cache
+.scrapy
+docs/_build/
+target/
+.ipynb_checkpoints
+celerybeat-schedule
+*.sage.py
+/site
+.mypy_cache/
+
+# Environments
+.python-version
+.env
+.venv
+env/
+venv/
+ENV/
+
+# Project settings
+.spyderproject
+.spyproject
+.ropeproject
+
 # Object files
 *.o
 *.ko
@@ -27,8 +93,14 @@
 *.i*86
 *.x86_64
 *.hex
+*.x
 
 # Debug and misc files
 *.dSYM/
 *.orig
+*.log
+
+# Translations
+*.mo
+*.pot
 
