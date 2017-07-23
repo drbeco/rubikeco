@@ -356,6 +356,22 @@ def l2(c): #rotacao dupla da esquerda
 
 #Cz: cubo gira tomba para direita
 
+acao=[u, ui, d, di, f, fi, b, bi, r, ri, l, li, u2, d2, f2, b2, r2, l2]
+nacao=['U', 'Ui', 'D', 'Di', 'F', 'Fi', 'B', 'Bi', 'R', 'Ri', 'L', 'Li', 'U2', 'D2', 'F2', 'B2', 'R2', 'L2']
+MAXACAO=len(acao)
+
+def embaralha(c, n):
+  """
+    Dado um cubo c e a quantidade de movimentos n, faz n movimentos aleatorios em c
+  """
+  print("Embaralhado com: ", end="")
+  while(n!=0):
+    s=randint(0, MAXACAO-1)
+    acao[s](c)
+    print(nacao[s], ' ', end="")
+    n=n-1
+  print()
+
 def main():
   print('Entre com a posicao atual')
   obj =   [['w','w','w','w','w','w','w','w','w'],
