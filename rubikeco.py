@@ -91,7 +91,7 @@ def d(c): #rotacao down horario
   fr=c[right][:] #right = blue
   fl=c[left][:] #left = green
   #up #nada muda
-  #down   
+  #down
   c[down][0]=fd[6]
   c[down][1]=fd[3]
   c[down][2]=fd[0]
@@ -284,6 +284,30 @@ def li(c): #rotacao left anti-horario
   l(c)
 
 #Rotacoes duplas: u2, d2, f2, b2, r2, l2, mx2, my2, mz2, cx2, cy2, cz2
+def u2(c): #rotacao dupla de cima
+  u(c)
+  u(c)
+
+def d2(c): #rotacao dupla de baixo
+  d(c)
+  d(c)
+
+def f2(c): #rotacao dupla da frente
+  f(c)
+  f(c)
+
+def b2(c): #rotacao dupla de trás
+  b(c)
+  b(c)
+
+def r2(c): #rotacao dupla da direita
+  r(c)
+  r(c)
+
+def l2(c): #rotacao dupla da esquerda
+  l(c)
+  l(c)
+
 #Nesta versao falta: (todo)
 #Rotacionar o cubo inteiro
 #Cx, Cxi, Cy, Cyi, Cz, Czi
