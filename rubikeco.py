@@ -20,6 +20,7 @@
 from copy import deepcopy
 from random import randint
 from time import time
+import sys
 
 up=0; down=1; front=2; back=3; right=4; left=5;
 achou = 0; nos = 0;
@@ -316,6 +317,7 @@ def l2(c): #rotacao dupla da esquerda
 #Cx, Cxi, Cy, Cyi, Cz, Czi
 
 #Cx: cubo tomba para tras
+def cx(c):
   fu=c[up][:]    #face up    = white
   fd=c[down][:]  #face down  = yellow
   ff=c[front][:] #face front = red
@@ -357,8 +359,8 @@ def l2(c): #rotacao dupla da esquerda
 
 #Cz: cubo gira tomba para direita
 
-acao=[u, ui, d, di, f, fi, b, bi, r, ri, l, li, u2, d2, f2, b2, r2, l2]
-nacao=['U', 'Ui', 'D', 'Di', 'F', 'Fi', 'B', 'Bi', 'R', 'Ri', 'L', 'Li', 'U2', 'D2', 'F2', 'B2', 'R2', 'L2']
+acao=[u, ui, d, di, f, fi, b, bi, r, ri, l, li, u2, d2, f2, b2, r2, l2, cx]
+nacao=['U', 'Ui', 'D', 'Di', 'F', 'Fi', 'B', 'Bi', 'R', 'Ri', 'L', 'Li', 'U2', 'D2', 'F2', 'B2', 'R2', 'L2', 'CX']
 MAXACAO=len(acao)
 
 def embaralha(c, n):
@@ -462,6 +464,12 @@ def main():
         ['o','o','o','o','o','o','o','o','o'],
         ['b','b','b','b','b','b','b','b','b'],
         ['g','g','g','g','g','g','g','g','g']]
+  #teste = [['0w','1w','2w','3w','4w','5w','6w','7w','8w'],
+        #['0y','1y','2y','3y','4y','5y','6y','7y','8y'],
+        #['0r','1r','2r','3r','4r','5r','6r','7r','8r'],
+        #['0o','1o','2o','3o','4o','5o','6o','7o','8o'],
+        #['0b','1b','2b','3b','4b','5b','6b','7b','8b'],
+        #['0g','1g','2g','3g','4g','5g','6g','7g','8g']]
   #obj = copy.deepcopy(teste)
   # U  B  Li  B  L
   #print('Aplicando rotacao u(teste)...')
@@ -498,11 +506,11 @@ def main():
   embaralha(rubik, nivel)
   print('Depois de embaralhado:')
   imprime(rubik)
+
   #buscar solucao
   print('Calculando solucao...')
-  print('Aplicando rotacao UPi anti-horario ui(cubo)...')
   acoes=[]
-  tempo, nodos, acoes = buscar(obj, rubik, 8, acoes)
+  tempo, nodos = buscar(obj, rubik, 8, acoes)
   
   print('Tempo total: %10.3f' % tempo, 's', ' Nodos: ', nodos, ' Nodos/s: %.3f' % (nodos/tempo))
   print('Solucao:')
