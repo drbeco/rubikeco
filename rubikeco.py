@@ -78,11 +78,12 @@ def u(c): #rotacao up horario
   c[left][0]=ff[0]
   c[left][1]=ff[1]
   c[left][2]=ff[2]
+
 def ui(c): #rotacao up anti-horario
   u(c)
   u(c)
   u(c)
- 
+
 def d(c): #rotacao down horario
   fu=c[up][:] #up = white -  nao muda
   fd=c[down][:] #down = yellow
@@ -444,19 +445,16 @@ def busca(o, c, nmax, acoes):
 
 
 def main():
-  print('Entre com a posicao atual')
-  obj =   [['w','w','w','w','w','w','w','w','w'],
-	   ['y','y','y','y','y','y','y','y','y'],
-	   ['r','r','r','r','r','r','r','r','r'],
-           ['o','o','o','o','o','o','o','o','o'],  
-	   ['g','g','g','g','g','g','g','g','g'],
-	   ['b','b','b','b','b','b','b','b','b']]
-  ini =   [['y','w','w','w','w','w','w','w','w'],
-	   ['w','y','y','y','y','y','y','y','y'],
-	   ['r','r','r','r','r','r','r','r','r'],
-           ['o','o','o','o','o','o','o','o','o'],  
-	   ['g','g','g','g','g','g','g','g','g'],
-	   ['b','b','b','b','b','b','b','b','b']]
+  nivel = 2
+  if len(sys.argv) == 1:
+    print('Embaralhando com nivel 2.')
+    print('Voce pode dizer o nivel chamando o programa rubikeco.py <n>.')
+  else:
+    nivel = int(sys.argv[1])
+    print('Embaralhando com nivel %d.' % nivel)
+  if nivel>8:
+    nivel = 2
+    print('Nivel maximo atual 8. Embaralhando com nivel 2.')
 
   rubik = [['w','w','w','w','w','w','w','w','w'],
         ['y','y','y','y','y','y','y','y','y'],
@@ -464,7 +462,7 @@ def main():
         ['o','o','o','o','o','o','o','o','o'],
         ['b','b','b','b','b','b','b','b','b'],
         ['g','g','g','g','g','g','g','g','g']]
-  obj = copy.deepcopy(teste)
+  #obj = copy.deepcopy(teste)
   # U  B  Li  B  L
   #print('Aplicando rotacao u(teste)...')
   #u(obj)
@@ -493,29 +491,29 @@ def main():
   #print('Aplicando rotacao l(teste)...')
   #l(obj)
   #imprime(obj)
-  
+
+  obj = deepcopy(rubik)
+  print('Antes de embaralhar:')
+  imprime(obj)
+  embaralha(rubik, nivel)
+  print('Depois de embaralhado:')
+  imprime(rubik)
   #buscar solucao
   print('Calculando solucao...')
   print('Aplicando rotacao UPi anti-horario ui(cubo)...')
   acoes=[]
-  #tempo=0.0
-  #tempo, nodos =  busca(obj, rubik, 8, acoes)
+  tempo, nodos, acoes = buscar(obj, rubik, 8, acoes)
   
- # def __init__ ( self, o, c, nmax, natual, acoes):
-  
-  tempo, nodos, acoes = buscar(obj, rubik, 6, acoes)
-  
-  #print(tempo, nodos, acoes)
-  
-  #exit()
-  #tempo, nodos =  buscat.busca(obj, rubik, 6, acoes)
-
   print('Tempo total: %10.3f' % tempo, 's', ' Nodos: ', nodos, ' Nodos/s: %.3f' % (nodos/tempo))
   print('Solucao:')
   for i in acoes:
     print(nacao[i], ' ', end="")
   print()
 
+  soluciona(rubik, acoes)
+  print('Depois de solucionado:')
+  imprime(rubik)
+
 if __name__ == "__main__":
   main()
-  
+
