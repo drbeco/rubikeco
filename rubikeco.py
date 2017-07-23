@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 # -*- coding: utf-8 -*-
 # Copyright 2010-2017 Prof. Dr. Ruben Carlo Benante
 # Autor: Ruben Carlo Benante <dr.beco@gmail.com>
@@ -44,41 +44,40 @@ def imprime(cubo):
       print(cubo[f][p], end='')
     print("\n")
 
-def ui(r): #rotacao up anti-horario
-  fu=r[0][:] #up = white
-  fd=r[1][:] #down = yellow - nao muda
-  ff=r[2][:] #front = red
-  fb=r[3][:] #back = orange
-  fr=r[4][:] #right = green
-  fl=r[5][:] #left = blue
+def u(c): #rotacao up horario
+  fu=c[up][:]    #face up    = white
+  fd=c[down][:]  #face down  = yellow - nao muda
+  ff=c[front][:] #face front = red
+  fb=c[back][:]  #face back  = orange
+  fr=c[right][:] #face right = blue
+  fl=c[left][:]  #face left  = green
   #up
-  r[0][0]=fu[2]
-  r[0][1]=fu[5]
-  r[0][2]=fu[8]
-  r[0][3]=fu[1]
-  r[0][4]=fu[4]
-  r[0][5]=fu[7]
-  r[0][6]=fu[0]
-  r[0][7]=fu[3]
-  r[0][8]=fu[6]
+  c[up][0]=fu[6]
+  c[up][1]=fu[3]
+  c[up][2]=fu[0]
+  c[up][3]=fu[7]
+  c[up][4]=fu[4]
+  c[up][5]=fu[1]
+  c[up][6]=fu[8]
+  c[up][7]=fu[5]
+  c[up][8]=fu[2]
   #down   #nada muda
   #front
-  r[2][0]=fl[0]
-  r[2][1]=fl[1]
-  r[2][2]=fl[2]
+  c[front][0]=fr[0]
+  c[front][1]=fr[1]
+  c[front][2]=fr[2]
   #back
-  r[3][0]=fr[0]
-  r[3][1]=fr[1]
-  r[3][2]=fr[2]
+  c[back][0]=fl[0]
+  c[back][1]=fl[1]
+  c[back][2]=fl[2]
   #right
-  r[4][0]=ff[0]
-  r[4][1]=ff[1]
-  r[4][2]=ff[2]
+  c[right][0]=fb[0]
+  c[right][1]=fb[1]
+  c[right][2]=fb[2]
   #left
-  r[5][0]=fb[0]
-  r[5][1]=fb[1]
-  r[5][2]=fb[2]
-
+  c[left][0]=ff[0]
+  c[left][1]=ff[1]
+  c[left][2]=ff[2]
 def ui(c): #rotacao up anti-horario
   u(c)
   u(c)
