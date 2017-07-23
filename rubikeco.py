@@ -308,14 +308,54 @@ def l2(c): #rotacao dupla da esquerda
   l(c)
   l(c)
 
-#Nesta versao falta: (todo)
-#Rotacionar o cubo inteiro
-#Cx, Cxi, Cy, Cyi, Cz, Czi
 #Rotacoes da camada do meio:
 #mx, mxi, my, myi, mz, mzi
-#Rotacoes duplas: mx2, my2, mz2, cx2, cy2, cz2
 
-  
+#Rotacionar o cubo inteiro
+#Cx, Cxi, Cy, Cyi, Cz, Czi
+
+#Cx: cubo tomba para tras
+  fu=c[up][:]    #face up    = white
+  fd=c[down][:]  #face down  = yellow
+  ff=c[front][:] #face front = red
+  fb=c[back][:]  #face back  = orange
+  fr=c[right][:] #face right = blue - nao muda
+  fl=c[left][:]  #face left  = green 
+  #up
+  c[up][0]=fb[8]
+  c[up][3]=fb[5]
+  c[up][6]=fb[2]
+  #down
+  c[down][0]=ff[0]
+  c[down][3]=ff[3]
+  c[down][6]=ff[6]
+  #front
+  c[front][0]=fu[0]
+  c[front][3]=fu[3]
+  c[front][6]=fu[6]
+  #back
+  c[back][2]=fd[6]
+  c[back][5]=fd[3]
+  c[back][8]=fd[0]
+  #right
+  c[right][2]=fd[8]
+  c[right][5]=fd[7]
+  c[right][8]=fd[6]
+  #left
+  c[left][0]=fl[6]
+  c[left][1]=fl[3]
+  c[left][2]=fl[0]
+  c[left][3]=fl[7]
+  c[left][4]=fl[4]
+  c[left][5]=fl[1]
+  c[left][6]=fl[8]
+  c[left][7]=fl[5]
+  c[left][8]=fl[2]
+
+#Cy: cubo gira na mesa
+
+#Cz: cubo gira tomba para direita
+
 def main():
   print('Entre com a posicao atual')
   obj =   [['w','w','w','w','w','w','w','w','w'],
