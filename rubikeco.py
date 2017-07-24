@@ -543,7 +543,7 @@ fnacao=['U', 'Ui', 'D', 'Di', 'F', 'Fi', 'B', 'Bi', 'R', 'Ri', 'L', 'Li', 'M', '
 racao=[cx, cxi, cy, cyi, cz, czi, cx2, cy2, cz2]
 rnacao=['X', 'Xi', 'Y', 'Yi', 'Z', 'Zi', 'X2', 'Y2', 'Z2']
 
-tchange={'white_up':'cube', 'white_cross':'face', 'yellow_up':'cube', 'yellow_cross':'face', 'solve':'face'}
+tchange={'white_up':'cube', 'white_cross':'face', 'white_corners':'face', 'yellow_up':'cube', 'yellow_cross':'face', 'solve':'face'}
 
 MIN_ACAO=0
 MAX_ACAO=len(acao)
@@ -672,7 +672,7 @@ def busca(obj, cub, nmax, acoes):
     ttotal = ntotal = 0
     if objetivo(cub, obj): #cumpriu o objetivo obj?
         print(' Tempo: %10.3f' % 0.0, 's', 'Nodos: %10d' % 0, 'Solucao!')
-        return ttotal, ntotal
+        return 0.0001, ntotal
 
     for n in range(1, nmax+1):
         print('Iniciando busca em %2d' % n, end="")
@@ -729,6 +729,7 @@ def busca(obj, cub, nmax, acoes):
 #    orientar o cubo todo com branco acima: white_up
 #    orientar o cubo todo com amarelo acima: yellow_up
 #    fazer cruz branca: white_cross
+#    subir os cantos brancos: white_corners
 #    fazer cruz amarela: yellow_cross
 #    resolver todo o cubo: solve
     
@@ -751,7 +752,15 @@ def objetivo(t, obj):
             return False
 
     if obj == 'white_cross':
-        if t[up][1] == '1w' and t[up][3] == '3w' and t[up][4] == '4w' and t[up][5] == '5w' and t[up][7] == '7w':
+        if objetivo(t, 'white_up') \
+        and t[up][1] == '1w' and t[up][3] == '3w' and t[up][4] == '4w' and t[up][5] == '5w' and t[up][7] == '7w':
+            return True
+        else:
+            return False
+
+    if obj == 'white_corners':
+        if objetivo(t, 'white_cross') \
+        and t[up][0] == '0w' and t[up][2] == '2w' and t[up][6] == '6w' and t[up][8] == '8w':
             return True
         else:
             return False
@@ -924,8 +933,9 @@ def main():
     print('Method: Friedrich Beginer')
     tacoes=[]; ttempo=0; tnodos=0;
 
+    fs=1
     acoes=[]
-    print('\nFase 1: orientar cubo com face branca para cima e vermelha para frente')
+    print('\nFase %d: orientar cubo com face branca para cima e vermelha para frente' % fs)
     typeaction('cube')
     tempo, nodos = busca('white_up', emb, 8, acoes)
     ttempo += tempo; tnodos += nodos;
@@ -936,8 +946,9 @@ def main():
     imprimeacoes(acoes)
     tacoes += acoes
 
+    fs=fs+1
     acoes=[]
-    print('\nFase 2: fazer cruz branca') 
+    print('\nFase %d: fazer cruz branca' % fs)
     typeaction('face')
     tempo, nodos = busca('white_cross', emb, 8, acoes)
     ttempo += tempo; tnodos += nodos;
@@ -948,8 +959,22 @@ def main():
     imprimeacoes(acoes)
     tacoes += acoes
 
+    fs=fs+1
     acoes=[]
-    print('\nFase 3: orientar o cubo com a face amarela para cima e laranja para frente') 
+    print('\nFase %d: subir os cantos brancos' % fs)
+    typeaction('face')
+    tempo, nodos = busca('white_corners', emb, 8, acoes)
+    ttempo += tempo; tnodos += nodos;
+    soluciona(emb, acoes)  
+    imprime(emb)
+    print('Tempo total: %10.3f' % ttempo, 's', ' Nodos: ', tnodos, ' Nodos/s: %.3f' % (tnodos/ttempo))
+    print('Solucao:')
+    imprimeacoes(acoes)
+    tacoes += acoes
+
+    fs=fs+1
+    acoes=[]
+    print('\nFase %d: orientar o cubo com a face amarela para cima e laranja para frente' % fs)
     typeaction('cube')
     tempo, nodos = busca('yellow_up', emb, 8, acoes)
     ttempo += tempo; tnodos += nodos;
@@ -960,8 +985,9 @@ def main():
     imprimeacoes(acoes)
     tacoes += acoes
 
+    fs=fs+1
     acoes=[]
-    print('\nFase 4: orientar o cubo com a face branca para cima e vermelha para frente') 
+    print('\nFase %d: orientar o cubo com a face branca para cima e vermelha para frente' % fs)
     typeaction('cube')
     tempo, nodos = busca('white_up', emb, 8, acoes)
     ttempo += tempo; tnodos += nodos;
@@ -972,8 +998,9 @@ def main():
     imprimeacoes(acoes)
     tacoes += acoes
 
+    fs=fs+1
     acoes=[]
-    print('\nFase 5: resolver todo o cubo') 
+    print('\nFase %d: resolver todo o cubo' % fs)
     typeaction('face')
     tempo, nodos = busca('solve', emb, 8, acoes)
     ttempo += tempo; tnodos += nodos;
