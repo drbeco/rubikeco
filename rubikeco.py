@@ -759,13 +759,13 @@ def main():
   #imprime(obj)
 
   obj = deepcopy(rubik)
-  #print('Antes de embaralhar:')
-  #imprime(obj)
-  #embaralha(rubik, nivel)
-  #print('Depois de embaralhado:')
+  print('Antes de embaralhar:')
+  imprime(obj)
+  embaralha(rubik, nivel)
+  print('Depois de embaralhado:')
 
-  print('antes')
-  imprime(rubik)
+  #print('antes')
+  #imprime(rubik)
 
   #R  Cx  Cxi  Cz2
   #print('d')
@@ -788,9 +788,9 @@ def main():
   #cy(rubik)
   #imprime(rubik)
 
-  print('cz')
-  cz(rubik)
-  imprime(rubik)
+  #print('cz')
+  #cz(rubik)
+  #imprime(rubik)
 
   #print('cxi')
   #cxi(rubik)
