@@ -526,12 +526,12 @@ def cz2(c): #rotacao dupla do cubo inteiro, eixo z
     cz(c)
     cz(c)
 
-acao=[u, ui, d, di, f, fi, b, bi, r, ri, l, li, m, mi, e, ei, s, si,
-            u2, d2, f2, b2, r2, l2, m2, e2, s2,
-            cx, cxi, cy, cyi, cz, czi, cx2, cy2, cz2]
-nacao=['U', 'Ui', 'D', 'Di', 'F', 'Fi', 'B', 'Bi', 'R', 'Ri', 'L', 'Li', 'M', 'Mi', 'E', 'Ei', 'S', 'Si',
-             'U2', 'D2', 'F2', 'B2', 'R2', 'L2', 'M2', 'E2', 'S2',
-             'X', 'Xi', 'Y', 'Yi', 'Z', 'Zi', 'Cx2', 'Cy2', 'Cz2']
+acao=[u, ui, d, di, f, fi, b, bi, r, ri, l, li, u2, d2, f2, b2, r2, l2, 
+      m, mi, e, ei, s, si, m2, e2, s2,
+      cx, cxi, cy, cyi, cz, czi, cx2, cy2, cz2]
+nacao=['U', 'Ui', 'D', 'Di', 'F', 'Fi', 'B', 'Bi', 'R', 'Ri', 'L', 'Li', 'U2', 'D2', 'F2', 'B2', 'R2', 'L2', 
+       'M', 'Mi', 'E', 'Ei', 'S', 'Si', 'M2', 'E2', 'S2',
+       'X', 'Xi', 'Y', 'Yi', 'Z', 'Zi', 'X2', 'Y2', 'Z2']
 
 #26 acoes de face
 #9 acoes de orientacao
@@ -543,10 +543,12 @@ fnacao=['U', 'Ui', 'D', 'Di', 'F', 'Fi', 'B', 'Bi', 'R', 'Ri', 'L', 'Li', 'M', '
 racao=[cx, cxi, cy, cyi, cz, czi, cx2, cy2, cz2]
 rnacao=['X', 'Xi', 'Y', 'Yi', 'Z', 'Zi', 'X2', 'Y2', 'Z2']
 
-tchange={'white_up':'cube', 'white_cross':'face', 'white_corners':'face', 'yellow_up':'cube', 'yellow_cross':'face', 'solve':'face'}
+#tchange={'white_up':'cube', 'white_cross':'face', 'white_corners':'face', 'yellow_up':'cube', 'yellow_cross':'face', 'solve':'face'}
 
 MIN_ACAO=0
 MAX_ACAO=len(acao)
+BASIC_MIN_ACAO=0
+BASIC_MAX_ACAO=18
 FACE_MIN_ACAO=0
 FACE_MAX_ACAO=27 #len(facao)
 CUBE_MIN_ACAO=27
@@ -559,13 +561,16 @@ def typeaction(t):
         Define o tipo de acoes validas para uso
     """
     global act
-    if t == 'cube':
+    if t == 'cube': # apenas roda o cubo por inteiro
         act={'min':CUBE_MIN_ACAO, 'max':CUBE_MAX_ACAO}
         return
-    if t == 'face':
+    if t == 'basic': # move somente as faces externas
+        act={'min':BASIC_MIN_ACAO, 'max':BASIC_MAX_ACAO}
+        return
+    if t == 'face': # faces externas e faces do meio
         act={'min':FACE_MIN_ACAO, 'max':FACE_MAX_ACAO}
         return
-    #if t == 'all':
+    #if t == 'all': # todas faces e cubo inteiro
     act={'min':MIN_ACAO, 'max':MAX_ACAO}
 
 def imprime(cubo):
@@ -834,13 +839,21 @@ def main():
     emb = deepcopy(rubik)
     #cxi(emb)
     #ei(emb)
-    embacoes=embaralha(emb, nivel)
 
+    #Mi  Cz2  Li  U2
+    mi(emb)
+    cz2(emb)
+    li(emb)
+    u2(emb)
+
+    #embacoes=embaralha(emb, nivel)
     print('Depois de embaralhado:')
     imprime(emb)
     print('Embaralhado com:')
     #print('Xi, Ei')
-    imprimeacoes(embacoes)
+    print('#Mi  Z2  Li  U2')
+    #imprimeacoes(embacoes)
+
 
     #R  Cx  Cxi  Cz2
     #print('d')
@@ -962,7 +975,7 @@ def main():
     fs=fs+1
     acoes=[]
     print('\nFase %d: subir os cantos brancos' % fs)
-    typeaction('face')
+    typeaction('basic')
     tempo, nodos = busca('white_corners', emb, 8, acoes)
     ttempo += tempo; tnodos += nodos;
     soluciona(emb, acoes)  
