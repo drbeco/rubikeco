@@ -630,7 +630,7 @@ def buscarec(obj, cub, nmax, natual, acoes):
   """
   global achou, nos
   natual = natual + 1
-  if natual > nmax:
+  if natual > nmax or objetivo(cub, obj): #nivel estourou ou ja achou
     return 0
   for a in range(act['min'], act['max']):
     t=deepcopy(cub)
