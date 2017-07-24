@@ -31,55 +31,6 @@ rubik = [['0o','1o','2o','3o','4o','5o','6o','7o','8o'],
         ['0y','1y','2y','3y','4y','5y','6y','7y','8y'],
         ['0r','1r','2r','3r','4r','5r','6r','7r','8r']]
 
-def imprime(cubo):
-  """
-    Imprime o cubo 'desmontado'
-  """
-  print("             B")
-  print("          ", end='')
-  for p in range(9):
-    if p%3==0 and p!=0:
-      print()
-      print("          ", end='')
-    print(cubo[0][p], '', end='')
-  print()
-  print("   L         U         R         D")
-  for p in range(3):
-    for f in range(1,5):
-      print(cubo[f][p*3+0], cubo[f][p*3+1], cubo[f][p*3+2], " ", end='')
-    print()
-  print("             F")
-  print("          ", end='')
-  for p in range(9):
-    if p%3==0 and p!=0:
-      print()
-      print("          ", end='')
-    print(cubo[5][p], '', end='')
-  print()
-
-def imprimefaces(cubo):
-  """
-    Imprime o cubo, cada face separadamente
-  """
-  for f in range(6):
-    if f==up:
-      print("up:")
-    elif f==down:
-      print("down:")
-    elif f==front:
-      print("front")
-    elif f==back:
-      print("back")
-    elif f==right:
-      print("right")
-    else:
-      print("left")
-    for p in range(9):
-      if p%3==0 and p!=0:
-        print()
-      print(cubo[f][p], end='')
-    print("\n")
-
 def u(c): #rotacao up horario
   fu=c[up][:]    #face up    = white
   fd=c[down][:]  #face down  = yellow - nao muda
@@ -584,6 +535,32 @@ nacao=['U', 'Ui', 'D', 'Di', 'F', 'Fi', 'B', 'Bi', 'R', 'Ri', 'L', 'Li',
        'Cx', 'Cxi', 'Cy', 'Cyi', 'Cz', 'Czi',
        'U2', 'D2', 'F2', 'B2', 'R2', 'L2', 'M2', 'E2', 'S2', 'Cx2', 'Cy2', 'Cz2']
 MAXACAO=len(acao)
+
+def imprime(cubo):
+  """
+    Imprime o cubo 'desmontado'
+  """
+  print("             B")
+  print("          ", end='')
+  for p in range(9):
+    if p%3==0 and p!=0:
+      print()
+      print("          ", end='')
+    print(cubo[0][p], '', end='')
+  print()
+  print("   L         U         R         D")
+  for p in range(3):
+    for f in range(1,5):
+      print(cubo[f][p*3+0], cubo[f][p*3+1], cubo[f][p*3+2], " ", end='')
+    print()
+  print("             F")
+  print("          ", end='')
+  for p in range(9):
+    if p%3==0 and p!=0:
+      print()
+      print("          ", end='')
+    print(cubo[5][p], '', end='')
+  print()
 
 def embaralha(c, n):
   """
