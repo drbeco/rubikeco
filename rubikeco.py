@@ -618,12 +618,15 @@ def embaralha(c, n):
     Dado um cubo c e a quantidade de movimentos n, faz n movimentos aleatorios em c
   """
   print("Embaralhado com: ", end="")
+  embacoes=[]
   while(n!=0):
     s=randint(0, MAXACAO-1)
+    embacoes+=[s]
     acao[s](c)
     print(nacao[s], ' ', end="")
     n=n-1
   print()
+  return embacoes
 
 def soluciona(c, acoes):
   for s in acoes:
@@ -761,11 +764,9 @@ def main():
   obj = deepcopy(rubik)
   print('Antes de embaralhar:')
   imprime(obj)
-  embaralha(rubik, nivel)
+  embacoes=embaralha(rubik, nivel)
   print('Depois de embaralhado:')
-
-  #print('antes')
-  #imprime(rubik)
+  imprime(rubik)
 
   #R  Cx  Cxi  Cz2
   #print('d')
@@ -856,20 +857,24 @@ def main():
 
   #buscar solucao
   print('Calculando solucao...')
-  return
   acoes=[]
   #tempo, nodos = buscar(obj, rubik, 8, acoes)
   tempo, nodos = busca(obj, rubik, 8, acoes)
 
   print('Tempo total: %10.3f' % tempo, 's', ' Nodos: ', nodos, ' Nodos/s: %.3f' % (nodos/tempo))
-  print('Solucao:')
-  for i in acoes:
-    print(nacao[i], ' ', end="")
-  print()
 
   soluciona(rubik, acoes)  
   print('Depois de solucionado:')
   imprime(rubik)
+
+  print('Embaralhado com:')
+  for s in embacoes:
+    print(nacao[s], ' ', end="")
+  print()
+  print('Solucao:')
+  for i in acoes:
+    print(nacao[i], ' ', end="")
+  print()
 
 if __name__ == "__main__":
   main()
