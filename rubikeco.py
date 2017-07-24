@@ -484,55 +484,37 @@ def czi(c): #rotacao do cubo inteiro, eixo z, anti-horario (cubo tomba para esqu
   cz(c)
   cz(c)
 
-#rotacoes da camada do meio:
-# mx: ril; mxi: rli
-# my: uid; myi: udi
-# mz: fib; mzi: fbi
+#rotacoes da camada do meio, notacao:
+# m: rli; mi: ril
+# e: udi; ei: uid
+# s: fib; si: fbi
 
-# Notacao:
-# m: mxi; mi: mx
-# e: myi; ei: my
-# s: mz; si: mzi
-
-def m(c):
-    mxi(c)
-def mi(c):
-    mx(c)
-def e(c):
-    myi(c)
-def ei(c):
-    my(c)
-def s(c):
-    mz(c)
-def si(c):
-    mzi(c)
-
-def mx(c): #rotacao da camada do meio, eixo x, horario
-  ri(c)
-  l(c)
-  cx(c)
-
-def mxi(c): #rotacao da camada do meio, eixo x, anti-horario
+def m(c): #rotacao da camada do meio, eixo x, horario (como l)
   r(c)
   li(c)
   cxi(c)
 
-def my(c): #rotacao da camada do meio, eixo y, horario
-  ui(c)
-  d(c)
-  cy(c)
+def mi(c): #rotacao da camada do meio, eixo x, anti-horario (como l)
+  ri(c)
+  l(c)
+  cx(c)
 
-def myi(c): #rotacao da camada do meio, eixo y, anti-horario
+def e(c): #rotacao da camada do meio, eixo y, horario (como d)
   u(c)
   di(c)
   cyi(c)
 
-def mz(c): #rotacao da camada do meio, eixo z, horario
+def ei(c): #rotacao da camada do meio, eixo y, anti-horario (como d)
+  ui(c)
+  d(c)
+  cy(c)
+
+def s(c): #rotacao da camada do meio, eixo z, horario (como f)
   fi(c)
   b(c)
   cz(c)
 
-def mzi(c): #rotacao da camada do meio, eixo z, anti-horario
+def si(c): #rotacao da camada do meio, eixo z, anti-horario (como f)
   f(c)
   bi(c)
   czi(c)
@@ -563,17 +545,17 @@ def l2(c): #rotacao dupla da esquerda
   l(c)
   l(c)
 
-def mx2(c): #rotacao dupla da camada do meio, eixo x
-  mx(c)
-  mx(c)
+def m2(c): #rotacao dupla da camada do meio, eixo x
+  m(c)
+  m(c)
 
-def my2(c): #rotacao dupla da camada do meio, eixo y
-  my(c)
-  my(c)
+def e2(c): #rotacao dupla da camada do meio, eixo y
+  e(c)
+  e(c)
 
-def mz2(c): #rotacao dupla da camada do meio, eixo z
-  mz(c)
-  mz(c)
+def s2(c): #rotacao dupla da camada do meio, eixo z
+  s(c)
+  s(c)
 
 def cx2(c): #rotacao dupla do cubo inteiro, eixo x
   cx(c)
@@ -622,13 +604,13 @@ def cz2(c): #rotacao dupla do cubo inteiro, eixo z
 #   todas quinas
 
 acao=[u, ui, d, di, f, fi, b, bi, r, ri, l, li,
-      mx, mxi, my, myi, mz, mzi,
+      m, mi, e, ei, s, si,
       cx, cxi, cy, cyi, cz, czi,
-      u2, d2, f2, b2, r2, l2, mx2, my2, mz2, cx2, cy2, cz2]
+      u2, d2, f2, b2, r2, l2, m2, e2, s2, cx2, cy2, cz2]
 nacao=['U', 'Ui', 'D', 'Di', 'F', 'Fi', 'B', 'Bi', 'R', 'Ri', 'L', 'Li',
-       'Mx', 'Mxi', 'My', 'Myi', 'Mz', 'Mzi',
+       'M', 'Mi', 'E', 'Ei', 'S', 'Si',
        'Cx', 'Cxi', 'Cy', 'Cyi', 'Cz', 'Czi',
-       'U2', 'D2', 'F2', 'B2', 'R2', 'L2', 'Mx2', 'My2', 'Mz2', 'Cx2', 'Cy2', 'Cz2']
+       'U2', 'D2', 'F2', 'B2', 'R2', 'L2', 'M2', 'E2', 'S2', 'Cx2', 'Cy2', 'Cz2']
 MAXACAO=len(acao)
 
 def embaralha(c, n):
