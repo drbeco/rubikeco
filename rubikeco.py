@@ -24,6 +24,12 @@ import sys
 
 back=0; left=1; up=2; right=3; down=4; front=5; 
 achou = 0; nos = 0;
+rubik = [['0o','1o','2o','3o','4o','5o','6o','7o','8o'],
+        ['0g','1g','2g','3g','4g','5g','6g','7g','8g'],
+        ['0w','1w','2w','3w','4w','5w','6w','7w','8w'],
+        ['0b','1b','2b','3b','4b','5b','6b','7b','8b'],
+        ['0y','1y','2y','3y','4y','5y','6y','7y','8y'],
+        ['0r','1r','2r','3r','4r','5r','6r','7r','8r']]
 
 def imprime(cubo):
   """
@@ -569,6 +575,102 @@ def cz2(c): #rotacao dupla do cubo inteiro, eixo z
   cz(c)
   cz(c)
 
+acao=[u, ui, d, di, f, fi, b, bi, r, ri, l, li,
+      m, mi, e, ei, s, si,
+      cx, cxi, cy, cyi, cz, czi,
+      u2, d2, f2, b2, r2, l2, m2, e2, s2, cx2, cy2, cz2]
+nacao=['U', 'Ui', 'D', 'Di', 'F', 'Fi', 'B', 'Bi', 'R', 'Ri', 'L', 'Li',
+       'M', 'Mi', 'E', 'Ei', 'S', 'Si',
+       'Cx', 'Cxi', 'Cy', 'Cyi', 'Cz', 'Czi',
+       'U2', 'D2', 'F2', 'B2', 'R2', 'L2', 'M2', 'E2', 'S2', 'Cx2', 'Cy2', 'Cz2']
+MAXACAO=len(acao)
+
+def embaralha(c, n):
+  """
+    Dado um cubo c e a quantidade de movimentos n, faz n movimentos aleatorios em c
+  """
+  print("Embaralhado com: ", end="")
+  embacoes=[]
+  while(n!=0):
+    s=randint(0, MAXACAO-1)
+    embacoes+=[s]
+    acao[s](c)
+    print(nacao[s], ' ', end="")
+    n=n-1
+  print()
+  return embacoes
+
+def soluciona(c, acoes):
+  for s in acoes:
+    acao[s](c)
+
+def buscarec(obj, c, nmax, natual, acoes):
+  """
+    Funcao recursiva para buscar os nos. Esta e a funcao mais importante do problema.
+    - Recebe o objetivo obj, o cubo a ser analisado c, o nivel maximo a se adentrar,
+    o nivel atual que esta olhando, e a lista de acoes para a solucao do problema
+    - Retorna o numero de nos procurados, e atualiza a lista de acoes para o problema
+  """
+  global achou, nos
+  natual = natual + 1
+  if natual > nmax:
+    return 0
+  for a in range(0, MAXACAO):
+    t=deepcopy(c)
+    acao[a](t)
+    nos = nos + 1
+    if objetivo(t, obj): #cumpriu o objetivo obj?
+      achou = 1
+    if achou: #achou neste nivel
+      acoes.append(a)
+      break
+    else:
+      q = deepcopy(t)
+      buscarec(obj, q, nmax, natual, acoes) #Busca recursiva neste no da arvore. Retorna na linha de baixo.
+      if achou: #achou no nivel de baixo
+        acoes.append(a)
+        break
+  return nos
+
+def buscar(obj, c, nmax, acoes):
+  """
+    Função que marca o tempo de trabalho da função buscarec()
+    retorna tempo, nos
+  """
+  tini=time()
+  global achou, nos
+  achou = nos = 0
+  t=deepcopy(c)
+  nos = buscarec(obj, t, nmax, 0, acoes)
+  acoes.reverse()
+  return time()-tini, nos
+
+def busca(obj, c, nmax, acoes):
+  """
+    Função de interface com o programa principal main().
+    Recebe o objetivo obj, o cubo embaralhado c, o nível máximo a procurar, e a lista de ações da solução vazia.
+    Retorna o tempo total, o número de nodos total e as ações para a solução
+    Chama a função buscar, com diferentes n
+  """
+  ttotal = ntotal = 0
+  for n in range(1, nmax+1):
+    print('Iniciando busca em %2d' % n, end="")
+    if n==1:
+      print(' nivel. ', end='')
+    else:
+      print(' niveis.', end='')
+    sys.stdout.flush()
+    tempo, nodos = buscar(obj, c, n, acoes)
+    ttotal += tempo
+    ntotal += nodos
+    print(' Tempo: %10.3f' % tempo, 's', 'Nodos: %10d' % nodos, end='')
+    if acoes!=[]:
+      print(' Solucao!')
+      break
+    else:
+      print(' Sem solucao.')
+  return ttotal, ntotal
+
 #Manobras
 #S1:  #E2:   Ri U Fi Ui                      #cruz branca
 #S2:  #E3:   Ri Di R D                       #cantos brancos
@@ -602,101 +704,48 @@ def cz2(c): #rotacao dupla do cubo inteiro, eixo z
 #   bloco 2x2x2
 # X corner first
 #   todas quinas
+# novos obj:
+#    orientar o cubo todo com branco acima: white_up
+#    orientar o cubo todo com amarelo acima: yellow_up
+#    fazer cruz branca: cruzbranca
+  
+#rubik = [['0o','1o','2o','3o','4o','5o','6o','7o','8o'],
+#        ['0g','1g','2g','3g','4g','5g','6g','7g','8g'],
+#        ['0w','1w','2w','3w','4w','5w','6w','7w','8w'],
+#        ['0b','1b','2b','3b','4b','5b','6b','7b','8b'],
+#        ['0y','1y','2y','3y','4y','5y','6y','7y','8y'],
+#        ['0r','1r','2r','3r','4r','5r','6r','7r','8r']]
 
-acao=[u, ui, d, di, f, fi, b, bi, r, ri, l, li,
-      m, mi, e, ei, s, si,
-      cx, cxi, cy, cyi, cz, czi,
-      u2, d2, f2, b2, r2, l2, m2, e2, s2, cx2, cy2, cz2]
-nacao=['U', 'Ui', 'D', 'Di', 'F', 'Fi', 'B', 'Bi', 'R', 'Ri', 'L', 'Li',
-       'M', 'Mi', 'E', 'Ei', 'S', 'Si',
-       'Cx', 'Cxi', 'Cy', 'Cyi', 'Cz', 'Czi',
-       'U2', 'D2', 'F2', 'B2', 'R2', 'L2', 'M2', 'E2', 'S2', 'Cx2', 'Cy2', 'Cz2']
-MAXACAO=len(acao)
+#back=0; left=1; up=2; right=3; down=4; front=5; 
+def objetivo(t, obj):
+    """
+        Funcao que retorna verdadeiro/falso se o objetivo corrente foi alcancado
+    """
+    if obj == 'white_up':
+        if t[up][4] == '4w' and t[front][4] == '4r':
+            return True
+        else:
+            return False
 
-def embaralha(c, n):
-  """
-    Dado um cubo c e a quantidade de movimentos n, faz n movimentos aleatorios em c
-  """
-  print("Embaralhado com: ", end="")
-  embacoes=[]
-  while(n!=0):
-    s=randint(0, MAXACAO-1)
-    embacoes+=[s]
-    acao[s](c)
-    print(nacao[s], ' ', end="")
-    n=n-1
-  print()
-  return embacoes
+    if obj == 'white_cross':
+        if t[up][1] == '1w' and t[up][3] == '3w' and t[up][4] == '4w' and t[up][5] == '5w' and t[up][7] == '7w':
+            return True
+        else:
+            return False
 
-def soluciona(c, acoes):
-  for s in acoes:
-    acao[s](c)
+    if obj == 'yellow_up':
+        if t[up][4] == '4y' and t[front][4] == '4o':
+            return True
+        else:
+            return False
 
-def buscarec(o, c, nmax, natual, acoes):
-  """
-    Funcao recursiva para buscar os nos. Esta e a funcao mais importante do problema.
-    - Recebe o cubo objeto o, o cubo a ser analisado c, o nivel maximo a se adentrar,
-    o nivel atual que esta olhando, e a lista de acoes para a solucao do problema
-    - Retorna o numero de nos procurados, e atualiza a lista de acoes para o problema
-  """
-  global achou, nos
-  natual = natual + 1
-  if natual > nmax:
-    return 0
-  for a in range(0, MAXACAO):
-    t=deepcopy(c)
-    acao[a](t)
-    nos = nos + 1
-    if t == o: #achou
-      achou = 1
-    if achou: #achou neste nivel
-      acoes.append(a)
-      break
-    else:
-      q = deepcopy(t)
-      buscarec(o, q, nmax, natual, acoes) #Busca recursiva neste no da arvore. Retorna na linha de baixo.
-      if achou: #achou no nivel de baixo
-        acoes.append(a)
-        break
-  return nos
-
-def buscar(o, c, nmax, acoes):
-  """
-    Função que marca o tempo de trabalho da função buscarec()
-    retorna tempo, nos
-  """
-  tini=time()
-  global achou, nos
-  achou = nos = 0
-  t=deepcopy(c)
-  nos = buscarec(o, t, nmax, 0, acoes)
-  acoes.reverse()
-  return time()-tini, nos
-
-def busca(o, c, nmax, acoes):
-  """
-    Função de interface com o programa principal main().
-    Recebe o cubo objetivo o, o cubo embaralhado c, o nível máximo a procurar, e a lista de ações da solução vazia.
-    Retorna o tempo total, o número de nodos total e as ações para a solução
-    Chama a função buscar, com diferentes n
-  """
-  ttotal = ntotal = 0
-  for n in range(1, nmax+1):
-    print('Iniciando busca em %2d' % n, end="")
-    if n==1:
-      print(' nivel. ', end='')
-    else:
-      print(' niveis.', end='')
-    tempo, nodos = buscar(o, c, n, acoes)
-    ttotal += tempo
-    ntotal += nodos
-    print(' Tempo: %10.3f' % tempo, 's', 'Nodos: %10d' % nodos, end='')
-    if acoes!=[]:
-      print(' Solucao!')
-      break
-    else:
-      print(' Sem solucao.')
-  return ttotal, ntotal
+    if obj == 'solved':
+        if t == rubik:
+            return True
+        else:
+            return False
+    
+    return False #objective not found
 
 
 def main():
@@ -712,160 +761,166 @@ def main():
     nivel = 2
     print('Nivel maximo atual 8. Embaralhando com nivel 2.')
 
-  #rubik = [['w','w','w','w','w','w','w','w','w'],
-  #      ['y','y','y','y','y','y','y','y','y'],
-  #      ['r','r','r','r','r','r','r','r','r'],
-  #      ['o','o','o','o','o','o','o','o','o'],
-  #      ['b','b','b','b','b','b','b','b','b'],
-  #      ['g','g','g','g','g','g','g','g','g']]
-  #cubo = [['0w','1w','2w','3w','4w','5w','6w','7w','8w'],
-        #['0y','1y','2y','3y','4y','5y','6y','7y','8y'],
-        #['0r','1r','2r','3r','4r','5r','6r','7r','8r'],
-        #['0o','1o','2o','3o','4o','5o','6o','7o','8o'],
-        #['0b','1b','2b','3b','4b','5b','6b','7b','8b'],
-        #['0g','1g','2g','3g','4g','5g','6g','7g','8g']]
-  #obj = copy.deepcopy(cubo)
+  #  rubik = [['0o','1o','2o','3o','4o','5o','6o','7o','8o'],
+  #        ['0g','1g','2g','3g','4g','5g','6g','7g','8g'],
+  #        ['0w','1w','2w','3w','4w','5w','6w','7w','8w'],
+  #        ['0b','1b','2b','3b','4b','5b','6b','7b','8b'],
+  #        ['0y','1y','2y','3y','4y','5y','6y','7y','8y'],
+  #        ['0r','1r','2r','3r','4r','5r','6r','7r','8r']]
+  #cubo = copy.deepcopy(rubik)
   # U  B  Li  B  L
   #print('Aplicando rotacao u(cubo)...')
-  #back=0; left=1; up=2; right=3; down=4; front=5; 
-  rubik = [['0o','1o','2o','3o','4o','5o','6o','7o','8o'],
-        ['0g','1g','2g','3g','4g','5g','6g','7g','8g'],
-        ['0w','1w','2w','3w','4w','5w','6w','7w','8w'],
-        ['0b','1b','2b','3b','4b','5b','6b','7b','8b'],
-        ['0y','1y','2y','3y','4y','5y','6y','7y','8y'],
-        ['0r','1r','2r','3r','4r','5r','6r','7r','8r']]
-  #u(obj)
-  #imprime(obj)
-  #obj = copy.deepcopy(cubo)
+  #u(cubo)
+  #imprime(cubo)
+  #cubo = copy.deepcopy(rubik)
   #print('Aplicando rotacao ui(cubo)...')
-  #ui(obj)
-  #imprime(obj)
-  #obj = copy.deepcopy(cubo)
+  #ui(cubo)
+  #imprime(cubo)
+  #cubo = copy.deepcopy(rubik)
   #print('Aplicando rotacao d(cubo)...')
-  #d(obj)
-  #imprime(obj)
-  #obj = copy.deepcopy(cubo)
+  #d(cubo)
+  #imprime(cubo)
+  #cubo = copy.deepcopy(rubik)
   #print('Aplicando rotacao f(cubo)...')
-  #f(obj)
-  #imprime(obj)
-  #obj = copy.deepcopy(cubo)
+  #f(cubo)
+  #imprime(cubo)
+  #cubo = copy.deepcopy(rubik)
   #print('Aplicando rotacao b(cubo)...')
-  #b(obj)
-  #imprime(obj)
-  #obj = copy.deepcopy(cubo)
+  #b(cubo)
+  #imprime(cubo)
+  #cubo = copy.deepcopy(rubik)
   #print('Aplicando rotacao r(cubo)...')
-  #r(obj)
-  #imprime(obj)
-  #obj = copy.deepcopy(cubo)
+  #r(cubo)
+  #imprime(cubo)
+  #cubo = copy.deepcopy(rubik)
   #print('Aplicando rotacao l(cubo)...')
-  #l(obj)
-  #imprime(obj)
+  #l(cubo)
+  #imprime(cubo)
 
-  obj = deepcopy(rubik)
   print('Antes de embaralhar:')
-  imprime(obj)
-  embacoes=embaralha(rubik, nivel)
-  print('Depois de embaralhado:')
   imprime(rubik)
+
+  emb = deepcopy(rubik)
+  embacoes=embaralha(emb, nivel)
+
+  print('Depois de embaralhado:')
+  imprime(emb)
 
   #R  Cx  Cxi  Cz2
   #print('d')
-  #d(rubik)
-  #imprime(rubik)
+  #d(emb)
+  #imprime(emb)
 
   #print('u')
-  #u(rubik)
-  #imprime(rubik)
+  #u(emb)
+  #imprime(emb)
 
   #print('b')
-  #b(rubik)
-  #imprime(rubik)
+  #b(emb)
+  #imprime(emb)
 
   #print('cx')
-  #cx(rubik)
-  #imprime(rubik)
+  #cx(emb)
+  #imprime(emb)
 
   #print('cy')
-  #cy(rubik)
-  #imprime(rubik)
+  #cy(emb)
+  #imprime(emb)
 
   #print('cz')
-  #cz(rubik)
-  #imprime(rubik)
+  #cz(emb)
+  #imprime(emb)
 
   #print('cxi')
-  #cxi(rubik)
-  #imprime(rubik)
+  #cxi(emb)
+  #imprime(emb)
 
-  #cz2(rubik)
-  #imprime(rubik)
-  #rubik = deepcopy(obj)
-  #mx(rubik)
+  #cz2(emb)
+  #imprime(emb)
+  #emb = deepcopy(rubik)
+  #mx(emb)
   #print('mx')
-  #imprime(rubik)
-  #rubik = deepcopy(obj)
-  #mxi(rubik)
+  #imprime(emb)
+  #emb = deepcopy(rubik)
+  #mxi(emb)
   #print('mxi')
-  #imprime(rubik)
-  #rubik = deepcopy(obj)
-  #my(rubik)
+  #imprime(emb)
+  #emb = deepcopy(rubik)
+  #my(emb)
   #print('my')
-  #imprime(rubik)
-  #rubik = deepcopy(obj)
-  #myi(rubik)
+  #imprime(emb)
+  #emb = deepcopy(rubik)
+  #myi(emb)
   #print('myi')
-  #imprime(rubik)
-  #rubik = deepcopy(obj)
-  #mz(rubik)
+  #imprime(emb)
+  #emb = deepcopy(rubik)
+  #mz(emb)
   #print('mz')
-  #imprime(rubik)
-  #rubik = deepcopy(obj)
-  #mzi(rubik)
+  #imprime(emb)
+  #emb = deepcopy(rubik)
+  #mzi(emb)
   #print('mzi')
-  #imprime(rubik)
+  #imprime(emb)
 
 
 #rodar cubo todo
 #       'Cx', 'Cxi', 'Cy', 'Cyi', 'Cz', 'Czi',
 
-  #rubik = deepcopy(obj)
-  #cx(rubik)
+  #emb = deepcopy(rubik)
+  #cx(emb)
   #print('cx')
-  #imprime(rubik)
-  #rubik = deepcopy(obj)
-  #cxi(rubik)
+  #imprime(emb)
+  #emb = deepcopy(rubik)
+  #cxi(emb)
   #print('cxi')
-  #imprime(rubik)
-  #rubik = deepcopy(obj)
-  #cy(rubik)
+  #imprime(emb)
+  #emb = deepcopy(rubik)
+  #cy(emb)
   #print('cy')
-  #imprime(rubik)
-  #rubik = deepcopy(obj)
-  #cyi(rubik)
+  #imprime(emb)
+  #emb = deepcopy(rubik)
+  #cyi(emb)
   #print('cyi')
-  #imprime(rubik)
-  #rubik = deepcopy(obj)
-  #cz(rubik)
+  #imprime(emb)
+  #emb = deepcopy(rubik)
+  #cz(emb)
   #print('cz')
-  #imprime(rubik)
-  #rubik = deepcopy(obj)
-  #czi(rubik)
+  #imprime(emb)
+  #emb = deepcopy(rubik)
+  #czi(emb)
   #print('czi')
-  #imprime(rubik)
-  #rubik = deepcopy(obj)
-
+  #imprime(emb)
+  #emb = deepcopy(rubik)
 
   #buscar solucao
   print('Calculando solucao...')
   acoes=[]
-  #tempo, nodos = buscar(obj, rubik, 8, acoes)
-  tempo, nodos = busca(obj, rubik, 8, acoes)
+  
+  ttempo=0; tnodos=0;
+  print('Fase 1: orientar cubo com face branca para cima e vermelha para frente')
+  tempo, nodos = busca('white_up', emb, 8, acoes)
+  ttempo += tempo; tnodos += nodos;
+  print('Fase 2: fazer cruz branca') 
+  tempo, nodos = busca('white_cross', emb, 8, acoes)
+  ttempo += tempo; tnodos += nodos;
+  print('Fase 3: orientar o cubo com a face amarela para cima e laranja para frente') 
+  tempo, nodos = busca('yellow_up', emb, 8, acoes)
+  ttempo += tempo; tnodos += nodos;
+  print('Fase 4: orientar o cubo com a face branca para cima e vermelha para frente') 
+  tempo, nodos = busca('white_up', emb, 8, acoes)
+  ttempo += tempo; tnodos += nodos;
+  print('Fase 5: resolver todo o cubo') 
+  tempo, nodos = busca('solved', emb, 8, acoes)
+  ttempo += tempo; tnodos += nodos;
+  print('fim') 
 
-  print('Tempo total: %10.3f' % tempo, 's', ' Nodos: ', nodos, ' Nodos/s: %.3f' % (nodos/tempo))
+  #tempo, nodos = busca(obj, emb, 8, acoes)
 
-  soluciona(rubik, acoes)  
+  print('Tempo total: %10.3f' % ttempo, 's', ' Nodos: ', tnodos, ' Nodos/s: %.3f' % (tnodos/ttempo))
+
+  soluciona(emb, acoes)  
   print('Depois de solucionado:')
-  imprime(rubik)
+  imprime(emb)
 
   print('Embaralhado com:')
   for s in embacoes:
