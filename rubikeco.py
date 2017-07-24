@@ -526,15 +526,47 @@ def cz2(c): #rotacao dupla do cubo inteiro, eixo z
   cz(c)
   cz(c)
 
-acao=[u, ui, d, di, f, fi, b, bi, r, ri, l, li,
-      m, mi, e, ei, s, si,
-      cx, cxi, cy, cyi, cz, czi,
-      u2, d2, f2, b2, r2, l2, m2, e2, s2, cx2, cy2, cz2]
-nacao=['U', 'Ui', 'D', 'Di', 'F', 'Fi', 'B', 'Bi', 'R', 'Ri', 'L', 'Li',
-       'M', 'Mi', 'E', 'Ei', 'S', 'Si',
-       'Cx', 'Cxi', 'Cy', 'Cyi', 'Cz', 'Czi',
-       'U2', 'D2', 'F2', 'B2', 'R2', 'L2', 'M2', 'E2', 'S2', 'Cx2', 'Cy2', 'Cz2']
-MAXACAO=len(acao)
+acao=[u, ui, d, di, f, fi, b, bi, r, ri, l, li, m, mi, e, ei, s, si,
+      u2, d2, f2, b2, r2, l2, m2, e2, s2,
+      cx, cxi, cy, cyi, cz, czi, cx2, cy2, cz2]
+nacao=['U', 'Ui', 'D', 'Di', 'F', 'Fi', 'B', 'Bi', 'R', 'Ri', 'L', 'Li', 'M', 'Mi', 'E', 'Ei', 'S', 'Si',
+       'U2', 'D2', 'F2', 'B2', 'R2', 'L2', 'M2', 'E2', 'S2',
+       'X', 'Xi', 'Y', 'Yi', 'Z', 'Zi', 'Cx2', 'Cy2', 'Cz2']
+
+#26 acoes de face
+#9 acoes de orientacao
+facao=[u, ui, d, di, f, fi, b, bi, r, ri, l, li, m, mi, e, ei, s, si,
+      u2, d2, f2, b2, r2, l2, m2, e2, s2]
+fnacao=['U', 'Ui', 'D', 'Di', 'F', 'Fi', 'B', 'Bi', 'R', 'Ri', 'L', 'Li', 'M', 'Mi', 'E', 'Ei', 'S', 'Si',
+       'U2', 'D2', 'F2', 'B2', 'R2', 'L2', 'M2', 'E2', 'S2']
+
+racao=[cx, cxi, cy, cyi, cz, czi, cx2, cy2, cz2]
+rnacao=['X', 'Xi', 'Y', 'Yi', 'Z', 'Zi', 'X2', 'Y2', 'Z2']
+
+tchange={'white_up':'cube', 'white_cross':'face', 'yellow_up':'cube', 'yellow_cross':'face', 'solve':'face'}
+
+MIN_ACAO=0
+MAX_ACAO=len(acao)
+FACE_MIN_ACAO=0
+FACE_MAX_ACAO=27 #len(facao)
+CUBE_MIN_ACAO=27
+CUBE_MAX_ACAO=36 #len(oacao)
+
+act={'min':MIN_ACAO, 'max':MAX_ACAO}
+
+def typeaction(t):
+    """
+        Define o tipo de acoes validas para uso
+    """
+    global act
+    if t == 'cube':
+        act={'min':CUBE_MIN_ACAO, 'max':CUBE_MAX_ACAO}
+        return
+    if t == 'face':
+        act={'min':FACE_MIN_ACAO, 'max':FACE_MAX_ACAO}
+        return
+    #if t == 'all':
+    act={'min':MIN_ACAO, 'max':MAX_ACAO}
 
 def imprime(cubo):
   """
@@ -562,26 +594,34 @@ def imprime(cubo):
     print(cubo[5][p], '', end='')
   print()
 
-def embaralha(c, n):
+def imprimeacoes(acoes):
+  """
+    Imprime as siglas da solucao encontrada em acoes
+  """
+  for i in acoes:
+    print(nacao[i], ' ', end="")
+  print()
+
+def embaralha(cub, lvl):
   """
     Dado um cubo c e a quantidade de movimentos n, faz n movimentos aleatorios em c
   """
   print("Embaralhado com: ", end="")
   embacoes=[]
-  while(n!=0):
-    s=randint(0, MAXACAO-1)
-    embacoes+=[s]
-    acao[s](c)
-    print(nacao[s], ' ', end="")
-    n=n-1
+  while(lvl!=0):
+    sorte=randint(act['min'], act['max']-1)
+    embacoes+=[sorte]
+    acao[sorte](cub)
+    print(nacao[sorte], ' ', end="")
+    lvl=lvl-1
   print()
   return embacoes
 
-def soluciona(c, acoes):
-  for s in acoes:
-    acao[s](c)
+def soluciona(cub, acoes):
+  for i in acoes:
+    acao[i](cub)
 
-def buscarec(obj, c, nmax, natual, acoes):
+def buscarec(obj, cub, nmax, natual, acoes):
   """
     Funcao recursiva para buscar os nos. Esta e a funcao mais importante do problema.
     - Recebe o objetivo obj, o cubo a ser analisado c, o nivel maximo a se adentrar,
@@ -592,8 +632,8 @@ def buscarec(obj, c, nmax, natual, acoes):
   natual = natual + 1
   if natual > nmax:
     return 0
-  for a in range(0, MAXACAO):
-    t=deepcopy(c)
+  for a in range(act['min'], act['max']):
+    t=deepcopy(cub)
     acao[a](t)
     nos = nos + 1
     if objetivo(t, obj): #cumpriu o objetivo obj?
@@ -609,7 +649,7 @@ def buscarec(obj, c, nmax, natual, acoes):
         break
   return nos
 
-def buscar(obj, c, nmax, acoes):
+def buscar(obj, cub, nmax, acoes):
   """
     Função que marca o tempo de trabalho da função buscarec()
     retorna tempo, nos
@@ -617,12 +657,12 @@ def buscar(obj, c, nmax, acoes):
   tini=time()
   global achou, nos
   achou = nos = 0
-  t=deepcopy(c)
+  t=deepcopy(cub)
   nos = buscarec(obj, t, nmax, 0, acoes)
   acoes.reverse()
   return time()-tini, nos
 
-def busca(obj, c, nmax, acoes):
+def busca(obj, cub, nmax, acoes):
   """
     Função de interface com o programa principal main().
     Recebe o objetivo obj, o cubo embaralhado c, o nível máximo a procurar, e a lista de ações da solução vazia.
@@ -637,7 +677,7 @@ def busca(obj, c, nmax, acoes):
     else:
       print(' niveis.', end='')
     sys.stdout.flush()
-    tempo, nodos = buscar(obj, c, n, acoes)
+    tempo, nodos = buscar(obj, cub, n, acoes)
     ttotal += tempo
     ntotal += nodos
     print(' Tempo: %10.3f' % tempo, 's', 'Nodos: %10d' % nodos, end='')
@@ -684,7 +724,9 @@ def busca(obj, c, nmax, acoes):
 # novos obj:
 #    orientar o cubo todo com branco acima: white_up
 #    orientar o cubo todo com amarelo acima: yellow_up
-#    fazer cruz branca: cruzbranca
+#    fazer cruz branca: white_cross
+#    fazer cruz amarela: yellow_cross
+#    resolver todo o cubo: solve
   
 #rubik = [['0o','1o','2o','3o','4o','5o','6o','7o','8o'],
 #        ['0g','1g','2g','3g','4g','5g','6g','7g','8g'],
@@ -716,7 +758,7 @@ def objetivo(t, obj):
         else:
             return False
 
-    if obj == 'solved':
+    if obj == 'solve':
         if t == rubik:
             return True
         else:
@@ -778,10 +820,15 @@ def main():
   imprime(rubik)
 
   emb = deepcopy(rubik)
-  embacoes=embaralha(emb, nivel)
+  cxi(emb)
+  ei(emb)
+  #embacoes=embaralha(emb, nivel)
 
   print('Depois de embaralhado:')
   imprime(emb)
+  print('Embaralhado com:')
+  print('Cxi, Ei')
+  #  imprimeacoes([0, 1])
 
   #R  Cx  Cxi  Cz2
   #print('d')
@@ -871,42 +918,78 @@ def main():
 
   #buscar solucao
   print('Calculando solucao...')
+  print('Method: Friedrich Beginer')
+  tacoes=[]; ttempo=0; tnodos=0;
+
   acoes=[]
-  
-  ttempo=0; tnodos=0;
   print('Fase 1: orientar cubo com face branca para cima e vermelha para frente')
+  typeaction('cube')
+  print(act)
   tempo, nodos = busca('white_up', emb, 8, acoes)
   ttempo += tempo; tnodos += nodos;
+  soluciona(emb, acoes)  
+  imprime(emb)
+  print('Tempo total: %10.3f' % ttempo, 's', ' Nodos: ', tnodos, ' Nodos/s: %.3f' % (tnodos/ttempo))
+  print('Solucao:')
+  imprimeacoes(acoes)
+  tacoes += acoes
+
+  acoes=[]
   print('Fase 2: fazer cruz branca') 
+  typeaction('face')
   tempo, nodos = busca('white_cross', emb, 8, acoes)
   ttempo += tempo; tnodos += nodos;
+  soluciona(emb, acoes)  
+  imprime(emb)
+  print('Tempo total: %10.3f' % ttempo, 's', ' Nodos: ', tnodos, ' Nodos/s: %.3f' % (tnodos/ttempo))
+  print('Solucao:')
+  imprimeacoes(acoes)
+  tacoes += acoes
+
+  acoes=[]
   print('Fase 3: orientar o cubo com a face amarela para cima e laranja para frente') 
+  typeaction('cube')
   tempo, nodos = busca('yellow_up', emb, 8, acoes)
   ttempo += tempo; tnodos += nodos;
+  soluciona(emb, acoes)  
+  imprime(emb)
+  print('Tempo total: %10.3f' % ttempo, 's', ' Nodos: ', tnodos, ' Nodos/s: %.3f' % (tnodos/ttempo))
+  print('Solucao:')
+  imprimeacoes(acoes)
+  tacoes += acoes
+
+  acoes=[]
   print('Fase 4: orientar o cubo com a face branca para cima e vermelha para frente') 
+  typeaction('cube')
   tempo, nodos = busca('white_up', emb, 8, acoes)
   ttempo += tempo; tnodos += nodos;
-  print('Fase 5: resolver todo o cubo') 
-  tempo, nodos = busca('solved', emb, 8, acoes)
-  ttempo += tempo; tnodos += nodos;
-  print('fim') 
-
-  #tempo, nodos = busca(obj, emb, 8, acoes)
-
-  print('Tempo total: %10.3f' % ttempo, 's', ' Nodos: ', tnodos, ' Nodos/s: %.3f' % (tnodos/ttempo))
-
   soluciona(emb, acoes)  
-  print('Depois de solucionado:')
   imprime(emb)
+  print('Tempo total: %10.3f' % ttempo, 's', ' Nodos: ', tnodos, ' Nodos/s: %.3f' % (tnodos/ttempo))
+  print('Solucao:')
+  imprimeacoes(acoes)
+  tacoes += acoes
+
+  acoes=[]
+  print('Fase 5: resolver todo o cubo') 
+  typeaction('face')
+  tempo, nodos = busca('solve', emb, 8, acoes)
+  ttempo += tempo; tnodos += nodos;
+  soluciona(emb, acoes)  
+  imprime(emb)
+  print('Tempo total: %10.3f' % ttempo, 's', ' Nodos: ', tnodos, ' Nodos/s: %.3f' % (tnodos/ttempo))
+  print('Solucao:')
+  imprimeacoes(acoes)
+  tacoes += acoes
+
+  #soluciona(emb, acoes)  
+  #print('Depois de solucionado:')
+  #imprime(emb)
 
   print('Embaralhado com:')
-  for s in embacoes:
-    print(nacao[s], ' ', end="")
-  print()
-  print('Solucao:')
-  for i in acoes:
-    print(nacao[i], ' ', end="")
-  print()
+  imprimeacoes(acoes)
+  print('Solucao total:')
+  imprimeacoes(tacoes)
 
 if __name__ == "__main__":
   main()
