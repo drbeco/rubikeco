@@ -334,20 +334,36 @@ def cx(c): #rotacao do cubo inteiro, eixo x, horario (cubo tomba para trás)
   fb=c[back][:]  #face back  = orange
   fr=c[right][:] #face right = blue - nao muda
   fl=c[left][:]  #face left  = green
-#  nc = [ff, fb, fd, fu, fr, fl]
-#  c = deepcopy(nc)
-  c[up]   =ff
-  #print('teste')
-  #print (fb)
+  #up
+  c[up]=ff
+  #down
   fb.reverse()
-  c[down] =fb
+  c[down]=fb
+  #front
+  fd.reverse()
   c[front]=fd
-  fu.reverse()
-  c[back] =fu
-  c[right]=fr #bug
-  c[left] =fl #bug
-  #print('De dentro de cx:------------------')
-  #imprime(c)
+  #back
+  c[back]=fu
+  #right (r)
+  c[right][0]=fr[6]
+  c[right][1]=fr[3]
+  c[right][2]=fr[0]
+  c[right][3]=fr[7]
+  c[right][4]=fr[4]
+  c[right][5]=fr[1]
+  c[right][6]=fr[8]
+  c[right][7]=fr[5]
+  c[right][8]=fr[2]
+  #left (li)
+  c[left][0]=fl[2]
+  c[left][1]=fl[5]
+  c[left][2]=fl[8]
+  c[left][3]=fl[1]
+  c[left][4]=fl[4]
+  c[left][5]=fl[7]
+  c[left][6]=fl[0]
+  c[left][7]=fl[3]
+  c[left][8]=fl[6]
 
 def cxi(c): #rotacao do cubo inteiro, eixo x, anti-horario (cubo tomba para frente)
   cx(c)
@@ -361,14 +377,66 @@ def cy(c): #rotacao do cubo inteiro, eixo y, horario (cubo gira na mesa)
   fb=c[back][:]  #face back  = orange
   fr=c[right][:] #face right = blue - nao muda
   fl=c[left][:]  #face left  = green
-#  nc = [fu, fd, fr, fl, fb, ff]
-#  c = deepcopy(nc)
-  c[up]   =fu
-  c[down] =fd
-  c[front]=fr
-  c[back] =fl
-  c[right]=fb
-  c[left] =ff
+  #up
+  c[up][0]=fu[6]
+  c[up][1]=fu[3]
+  c[up][2]=fu[0]
+  c[up][3]=fu[7]
+  c[up][4]=fu[4]
+  c[up][5]=fu[1]
+  c[up][6]=fu[8]
+  c[up][7]=fu[5]
+  c[up][8]=fu[2]
+  #down
+  c[down][0]=fd[2]
+  c[down][1]=fd[5]
+  c[down][2]=fd[8]
+  c[down][3]=fd[1]
+  c[down][4]=fd[4]
+  c[down][5]=fd[7]
+  c[down][6]=fd[0]
+  c[down][7]=fd[3]
+  c[down][8]=fd[6]
+  #front
+  c[front][0]=fr[6]
+  c[front][1]=fr[3]
+  c[front][2]=fr[0]
+  c[front][3]=fr[7]
+  c[front][4]=fr[4]
+  c[front][5]=fr[1]
+  c[front][6]=fr[8]
+  c[front][7]=fr[5]
+  c[front][8]=fr[2]
+  #back
+  c[back][0]=fl[6]
+  c[back][1]=fl[3]
+  c[back][2]=fl[0]
+  c[back][3]=fl[7]
+  c[back][4]=fl[4]
+  c[back][5]=fl[1]
+  c[back][6]=fl[8]
+  c[back][7]=fl[5]
+  c[back][8]=fl[2]
+  #right
+  c[right][0]=fb[6]
+  c[right][1]=fb[3]
+  c[right][2]=fb[0]
+  c[right][3]=fb[7]
+  c[right][4]=fb[4]
+  c[right][5]=fb[1]
+  c[right][6]=fb[8]
+  c[right][7]=fb[5]
+  c[right][8]=fb[2]
+  #left
+  c[left][0]=ff[6]
+  c[left][1]=ff[3]
+  c[left][2]=ff[0]
+  c[left][3]=ff[7]
+  c[left][4]=ff[4]
+  c[left][5]=ff[1]
+  c[left][6]=ff[8]
+  c[left][7]=ff[5]
+  c[left][8]=ff[2]
 
 def cyi(c): #rotacao do cubo inteiro, eixo y, anti-horario (cubo gira na mesa)
   cy(c)
@@ -382,14 +450,34 @@ def cz(c): #rotacao do cubo inteiro, eixo z, horario (cubo tomba para direita)
   fb=c[back][:]  #face back  = orange
   fr=c[right][:] #face right = blue - nao muda
   fl=c[left][:]  #face left  = green
-#  nc = [fl, fr, ff, fb, fu, fd]
-#  c = deepcopy(nc)
-  c[up]   =fl
-  c[down] =fr
-  c[front]=ff
-  c[back] =fb
+  #up
+  c[up]=fl
+  #down
+  c[down]=fr
+  #front
+  c[front][0]=ff[6]
+  c[front][1]=ff[3]
+  c[front][2]=ff[0]
+  c[front][3]=ff[7]
+  c[front][4]=ff[4]
+  c[front][5]=ff[1]
+  c[front][6]=ff[8]
+  c[front][7]=ff[5]
+  c[front][8]=ff[2]
+  #back
+  c[back][0]=fb[2]
+  c[back][1]=fb[5]
+  c[back][2]=fb[8]
+  c[back][3]=fb[1]
+  c[back][4]=fb[4]
+  c[back][5]=fb[7]
+  c[back][6]=fb[0]
+  c[back][7]=fb[3]
+  c[back][8]=fb[6]
+  #right
   c[right]=fu
-  c[left] =fd
+  #left
+  c[left]=fd
 
 def czi(c): #rotacao do cubo inteiro, eixo z, anti-horario (cubo tomba para esquerda)
   cz(c)
@@ -400,6 +488,24 @@ def czi(c): #rotacao do cubo inteiro, eixo z, anti-horario (cubo tomba para esqu
 # mx: ril; mxi: rli
 # my: uid; myi: udi
 # mz: fib; mzi: fbi
+
+# Notacao:
+# m: mxi; mi: mx
+# e: myi; ei: my
+# s: mz; si: mzi
+
+def m(c):
+    mxi(c)
+def mi(c):
+    mx(c)
+def e(c):
+    myi(c)
+def ei(c):
+    my(c)
+def s(c):
+    mz(c)
+def si(c):
+    mzi(c)
 
 def mx(c): #rotacao da camada do meio, eixo x, horario
   ri(c)
@@ -692,8 +798,16 @@ def main():
   #b(rubik)
   #imprime(rubik)
 
-  print('cx')
-  cx(rubik)
+  #print('cx')
+  #cx(rubik)
+  #imprime(rubik)
+
+  #print('cy')
+  #cy(rubik)
+  #imprime(rubik)
+
+  print('cz')
+  cz(rubik)
   imprime(rubik)
 
   #print('cxi')
