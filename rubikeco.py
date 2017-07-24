@@ -665,11 +665,15 @@ def buscar(obj, cub, nmax, acoes):
 def busca(obj, cub, nmax, acoes):
   """
     Função de interface com o programa principal main().
-    Recebe o objetivo obj, o cubo embaralhado c, o nível máximo a procurar, e a lista de ações da solução vazia.
+    Recebe o objetivo obj, o cubo embaralhado cub, o nível máximo a procurar, e a lista de ações da solução vazia.
     Retorna o tempo total, o número de nodos total e as ações para a solução
     Chama a função buscar, com diferentes n
   """
   ttotal = ntotal = 0
+  if objetivo(cub, obj): #cumpriu o objetivo obj?
+    print(' Tempo: %10.3f' % 0.0, 's', 'Nodos: %10d' % 0, 'Solucao!')
+    return ttotal, ntotal
+
   for n in range(1, nmax+1):
     print('Iniciando busca em %2d' % n, end="")
     if n==1:
@@ -820,15 +824,15 @@ def main():
   imprime(rubik)
 
   emb = deepcopy(rubik)
-  cxi(emb)
-  ei(emb)
-  #embacoes=embaralha(emb, nivel)
+  #cxi(emb)
+  #ei(emb)
+  embacoes=embaralha(emb, nivel)
 
   print('Depois de embaralhado:')
   imprime(emb)
   print('Embaralhado com:')
-  print('Cxi, Ei')
-  #  imprimeacoes([0, 1])
+  #print('Xi, Ei')
+  imprimeacoes(embacoes)
 
   #R  Cx  Cxi  Cz2
   #print('d')
@@ -922,9 +926,8 @@ def main():
   tacoes=[]; ttempo=0; tnodos=0;
 
   acoes=[]
-  print('Fase 1: orientar cubo com face branca para cima e vermelha para frente')
+  print('\nFase 1: orientar cubo com face branca para cima e vermelha para frente')
   typeaction('cube')
-  print(act)
   tempo, nodos = busca('white_up', emb, 8, acoes)
   ttempo += tempo; tnodos += nodos;
   soluciona(emb, acoes)  
@@ -935,7 +938,7 @@ def main():
   tacoes += acoes
 
   acoes=[]
-  print('Fase 2: fazer cruz branca') 
+  print('\nFase 2: fazer cruz branca') 
   typeaction('face')
   tempo, nodos = busca('white_cross', emb, 8, acoes)
   ttempo += tempo; tnodos += nodos;
@@ -947,7 +950,7 @@ def main():
   tacoes += acoes
 
   acoes=[]
-  print('Fase 3: orientar o cubo com a face amarela para cima e laranja para frente') 
+  print('\nFase 3: orientar o cubo com a face amarela para cima e laranja para frente') 
   typeaction('cube')
   tempo, nodos = busca('yellow_up', emb, 8, acoes)
   ttempo += tempo; tnodos += nodos;
@@ -959,7 +962,7 @@ def main():
   tacoes += acoes
 
   acoes=[]
-  print('Fase 4: orientar o cubo com a face branca para cima e vermelha para frente') 
+  print('\nFase 4: orientar o cubo com a face branca para cima e vermelha para frente') 
   typeaction('cube')
   tempo, nodos = busca('white_up', emb, 8, acoes)
   ttempo += tempo; tnodos += nodos;
@@ -971,7 +974,7 @@ def main():
   tacoes += acoes
 
   acoes=[]
-  print('Fase 5: resolver todo o cubo') 
+  print('\nFase 5: resolver todo o cubo') 
   typeaction('face')
   tempo, nodos = busca('solve', emb, 8, acoes)
   ttempo += tempo; tnodos += nodos;
@@ -987,7 +990,7 @@ def main():
   #imprime(emb)
 
   print('Embaralhado com:')
-  imprimeacoes(acoes)
+  imprimeacoes(embacoes)
   print('Solucao total:')
   imprimeacoes(tacoes)
 
