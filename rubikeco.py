@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
-# Copyright 2010-2017 Prof. Dr. Ruben Carlo Benante
-# Autor: Ruben Carlo Benante <dr.beco@gmail.com>
+# Copyright 2010-2017 Prof. Dr. Ruben Carlo Benante Version 1.2.20170724.014721
+# Autor: Ruben Carlo Benante <rcb@beco.cc>
 # Licensa GPL - Software livre
 # Ninguém deve ser restringido ao usar um software. Há 4 direitos que todo usuário deve ter:
 # Direito número 1: A liberdade de usar o software para qualquer objetivo,
