@@ -17,6 +17,9 @@
 #
 # Este é o programa rubikeco.py, fonte em python, para analisar uma solução para o cubo mágico
 
+#import copy
+#import random
+import threading
 from copy import deepcopy
 from random import randint
 from time import time
@@ -81,9 +84,39 @@ def u(c): #rotacao up horario
   c[left][2]=ff[2]
 
 def ui(c): #rotacao up anti-horario
-  u(c)
-  u(c)
-  u(c)
+  fu=c[up][:] #up = white
+  fd=c[down][:] #down = yellow - nao muda
+  ff=c[front][:] #front = red
+  fb=c[back][:] #back = orange
+  fr=c[right][:] #right = blue
+  fl=c[left][:] #left = green
+  #up
+  c[up][0]=fu[2]
+  c[up][1]=fu[5]
+  c[up][2]=fu[8]
+  c[up][3]=fu[1]
+  c[up][4]=fu[4]
+  c[up][5]=fu[7]
+  c[up][6]=fu[0]
+  c[up][7]=fu[3]
+  c[up][8]=fu[6]
+  #down   #nada muda
+  #front
+  c[front][0]=fl[0]
+  c[front][1]=fl[1]
+  c[front][2]=fl[2]
+  #back
+  c[back][0]=fr[0]
+  c[back][1]=fr[1]
+  c[back][2]=fr[2]
+  #right
+  c[right][0]=ff[0]
+  c[right][1]=ff[1]
+  c[right][2]=ff[2]
+  #left
+  c[left][0]=fb[0]
+  c[left][1]=fb[1]
+  c[left][2]=fb[2]
 
 def d(c): #rotacao down horario
   fu=c[up][:] #up = white -  nao muda
@@ -470,15 +503,16 @@ def cz2(c): #rotacao dupla do cubo inteiro, eixo z
 # y=u=di=ei
 # z=f=bi=s
 
-
-acao=[u, ui, d, di, f, fi, b, bi, r, ri, l, li,
-      mx, mxi, my, myi, mz, mzi,
-      cx, cxi, cy, cyi, cz, czi,
-      u2, d2, f2, b2, r2, l2, mx2, my2, mz2, cx2, cy2, cz2]
-nacao=['U', 'Ui', 'D', 'Di', 'F', 'Fi', 'B', 'Bi', 'R', 'Ri', 'L', 'Li',
-       'Mx', 'Mxi', 'My', 'Myi', 'Mz', 'Mzi',
-       'Cx', 'Cxi', 'Cy', 'Cyi', 'Cz', 'Czi',
-       'U2', 'D2', 'F2', 'B2', 'R2', 'L2', 'Mx2', 'My2', 'Mz2', 'Cx2', 'Cy2', 'Cz2']
+acao=[u, ui, d, di, f, fi, b, bi, r, ri, l, li]
+nacao=['U', 'Ui', 'D', 'Di', 'F', 'Fi', 'B', 'Bi', 'R', 'Ri', 'L', 'Li']
+#acao=[u, ui, d, di, f, fi, b, bi, r, ri, l, li,
+#      mx, mxi, my, myi, mz, mzi,
+#      cx, cxi, cy, cyi, cz, czi,
+#      u2, d2, f2, b2, r2, l2, mx2, my2, mz2, cx2, cy2, cz2]
+#nacao=['U', 'Ui', 'D', 'Di', 'F', 'Fi', 'B', 'Bi', 'R', 'Ri', 'L', 'Li',
+#       'Mx', 'Mxi', 'My', 'Myi', 'Mz', 'Mzi',
+#       'Cx', 'Cxi', 'Cy', 'Cyi', 'Cz', 'Czi',
+#       'U2', 'D2', 'F2', 'B2', 'R2', 'L2', 'Mx2', 'My2', 'Mz2', 'Cx2', 'Cy2', 'Cz2']
 MAXACAO=len(acao)
 
 def embaralha(c, n):
@@ -493,52 +527,135 @@ def embaralha(c, n):
     n=n-1
   print()
 
-def soluciona(c, acoes):
-  for s in acoes:
-    acao[s](c)
-
-def buscarec(o, c, nmax, natual, acoes):
+class buscat(threading.Thread):
   """
-    Funcao recursiva para buscar os nos. Esta e a funcao mais importante do problema.
+    Funcao recursiva com threads para buscar os nos. Esta e a funcao mais importante do problema.
     - Recebe o cubo objeto o, o cubo a ser analisado c, o nivel maximo a se adentrar,
     o nivel atual que esta olhando, e a lista de acoes para a solucao do problema
     - Retorna o numero de nos procurados, e atualiza a lista de acoes para o problema
   """
-  global achou, nos
-  natual = natual + 1
-  if natual > nmax:
-    return 0
-  for a in range(0, MAXACAO):
-    t=deepcopy(c)
-    acao[a](t)
-    nos = nos + 1
-    if t == o: #achou
-      achou = 1
-    if achou: #achou neste nivel
-      acoes.append(a)
-      break
-    else:
-      q = deepcopy(t)
-      buscarec(o, q, nmax, natual, acoes) #Busca recursiva neste no da arvore. Retorna na linha de baixo.
-      if achou: #achou no nivel de baixo
-        acoes.append(a)
-        break
-  return nos
+  achou = 0
+  nodos = 0
+  acos = []
+  def __init__ ( self, o, c, nmax):
+    threading.Thread.__init__ ( self )
+    self.o = o
+    self.c = deepcopy(c)
+    self.nmax = nmax
+    #self.natual = natual
+    #self.acoes = acoes
+    self.nos = 1
+    #self.name = nome
 
-def buscar(o, c, nmax, acoes):
+  def run(self):#, o, c, nmax, natual, acoes):
+    """
+      retorna numero de nodos pesquisados
+    """
+    #print(self.name)
+    t = deepcopy(self.c)
+    a = int(self.name)
+    acao[a](t)
+    if t == self.o:
+      buscat.achou = self.name
+      buscat.acos.append(a)
+      buscat.acos = [a]
+      return
+    #print('em run, self.name:', self.name)
+    self.buscatr(self.o, t, self.nmax, 1, self.name)
+    if buscat.achou == self.name: #achou no nivel de baixo desta thread
+      buscat.acos.append(a)
+    return
+
+  def buscatr(self, o, c, nmax, natual, npai):
+    """
+      recursiva. num. nodos calculados em self.nos
+    """
+    natual = natual + 1
+    if natual > nmax:
+      #print('if natual > nmax:')
+      return
+    if buscat.achou != 0:
+      return
+    if c == o:
+      return
+    for a in range(0, MAXACAO):
+      t=deepcopy(c)
+      acao[a](t)
+      self.nos = self.nos + 1
+      if t == o: #achou
+        buscat.achou = npai
+        buscat.acos.append(a)
+        #if self.name=='Thread-1':
+          #print('adicionou acos:', a, nacao[a], natual)
+        break
+      if buscat.achou != 0: #achou em alguma thread
+        break
+      else:
+        q = deepcopy(t)
+        self.buscatr(o, q, nmax, natual, npai)
+        if buscat.achou == npai: #achou no nivel de baixo desta thread
+          #if self.name=='Thread-1':
+            #print('acos', buscat.acos)
+          buscat.acos.append(a)
+          #if self.name=='Thread-1':
+            #print('->adicionou acos a', a, 'nacao:', nacao[a], 'natual', natual, 'achou', buscat.achou)
+          break
+    return
+
+def buscar(o, c, nmax):
   """
-    Função que marca o tempo de trabalho da função buscarec()
+    Função que marca o tempo de trabalho das threads 
     retorna tempo, nos
   """
   tini=time()
-  global achou, nos
-  achou = nos = 0
-  t=deepcopy(c)
-  nos = buscarec(o, t, nmax, 0, acoes)
-  acoes.reverse()
-  return time()-tini, nos
+  tredis=[]
+  n=[]
+  for a in range(0, MAXACAO):
+  #  t=deepcopy(c)
+  #  acao[a](t)
+  #  if t == o:
+  #    buscat.achou = 1
+  #    buscat.acos = [a]
+  #    print('No threads started')
+  #    ntotal = a+1;
+  #    print ('Nodos calculados: ', ntotal)
+  #    return time()-tini, ntotal, buscat.acos
+    tredis.append(buscat(o, c, nmax))
+    n.append(0)
 
-def busca(o, c, nmax, acoes):
+  buscat.achou=0
+  buscat.nodos=0
+  buscat.acos=[]
+  for i in range(0, MAXACAO):
+    tredis[i].name = i
+    #print(tredis[i].name)
+    tredis[i].start() #n[i] = num nodos
+  #print('All started')
+
+  for i in range(0, MAXACAO):
+    tredis[i].join()
+    n[i]=tredis[i].nos
+  #print('All joined')
+
+  #print('achou: ', buscat.achou)
+  #buscat.acos.append(int(buscat.achou))
+#  try:
+#  except KeyboardInterrupt:
+#    exit()
+
+  ntotal = 0;
+  for i, j in enumerate(n):
+    print ('Nodos calculados pela Thread-%02d: %2d ' % ((i+1), j), ' Movimento inicial: ', nacao[int(tredis[i].name)])
+    ntotal = ntotal + j
+
+  #for i,j in enumerate(t):
+    #print(i, j)
+
+  #nos = buscarec1(o, t, nmax, 0, acoes)
+  buscat.acos.reverse()
+  return time()-tini, ntotal, buscat.acos
+
+def busca(o, c, nmax):
   """
     Função de interface com o programa principal main().
     Recebe o cubo objetivo o, o cubo embaralhado c, o nível máximo a procurar, e a lista de ações da solução vazia.
@@ -546,180 +663,96 @@ def busca(o, c, nmax, acoes):
     Chama a função buscar, com diferentes n
   """
   ttotal = ntotal = 0
+  if o == c:
+    print('Nivel: 0.\nResultado: Solucao!')
+    return ttotal, ntotal, []
+  else:
+    print('Nivel: 0.\nResultado: Sem solucao.')
+
   for n in range(1, nmax+1):
-    print('Iniciando busca em %2d' % n, end="")
-    if n==1:
-      print(' nivel. ', end='')
-    else:
-      print(' niveis.', end='')
-    tempo, nodos = buscar(o, c, n, acoes)
+    print('Nivel: %2d.' % n)
+    tempo, nodos, acoes = buscar(o, c, n)
     ttotal += tempo
     ntotal += nodos
-    print(' Tempo: %10.3f' % tempo, 's', 'Nodos: %10d' % nodos, end='')
+    print('Nivel: %2d.' % n, 'Tempo: %10.3f' % tempo, 's', 'Nodos: %10d' % nodos, 'Resultado: ', end='')
     if acoes!=[]:
       print(' Solucao!')
       break
     else:
       print(' Sem solucao.')
-  return ttotal, ntotal
+  return ttotal, ntotal, acoes
 
 
 def main():
   #print('Entre com a posicao atual')
-  nivel = 2
-  if len(sys.argv) == 1:
-    print('Embaralhando com nivel 2.')
-    print('Voce pode dizer o nivel chamando o programa rubikeco.py <n>.')
-  else:
-    nivel = int(sys.argv[1])
-    print('Embaralhando com nivel %d.' % nivel)
-  if nivel>8:
-    nivel = 2
-    print('Nivel maximo atual 8. Embaralhando com nivel 2.')
-
+  print('Posicao inicial: cubo resolvido.')
+  print('Topo     (U): branco     (w)')
+  print('Baixo    (D): amarelo    (y)')
+  print('Frente   (F): vermelho   (r)')
+  print('Costas   (B): alaranjado (o)')
+  print('Direita  (R): azul       (b)')
+  print('Esquerda (L): verde      (g)')
   rubik = [['w','w','w','w','w','w','w','w','w'],
         ['y','y','y','y','y','y','y','y','y'],
         ['r','r','r','r','r','r','r','r','r'],
         ['o','o','o','o','o','o','o','o','o'],
         ['b','b','b','b','b','b','b','b','b'],
         ['g','g','g','g','g','g','g','g','g']]
-  #cubo = [['0w','1w','2w','3w','4w','5w','6w','7w','8w'],
-        #['0y','1y','2y','3y','4y','5y','6y','7y','8y'],
-        #['0r','1r','2r','3r','4r','5r','6r','7r','8r'],
-        #['0o','1o','2o','3o','4o','5o','6o','7o','8o'],
-        #['0b','1b','2b','3b','4b','5b','6b','7b','8b'],
-        #['0g','1g','2g','3g','4g','5g','6g','7g','8g']]
-  #obj = copy.deepcopy(cubo)
-  # U  B  Li  B  L
-  #print('Aplicando rotacao u(cubo)...')
-  #back=0; left=1; up=2; right=3; down=4; front=5; 
-  rubik = [['0o','1o','2o','3o','4o','5o','6o','7o','8o'],
-        ['0g','1g','2g','3g','4g','5g','6g','7g','8g'],
-        ['0w','1w','2w','3w','4w','5w','6w','7w','8w'],
-        ['0b','1b','2b','3b','4b','5b','6b','7b','8b'],
-        ['0y','1y','2y','3y','4y','5y','6y','7y','8y'],
-        ['0r','1r','2r','3r','4r','5r','6r','7r','8r']]
-  #u(obj)
-  #imprime(obj)
-  #obj = copy.deepcopy(cubo)
-  #print('Aplicando rotacao ui(cubo)...')
-  #ui(obj)
-  #imprime(obj)
-  #obj = copy.deepcopy(cubo)
-  #print('Aplicando rotacao d(cubo)...')
-  #d(obj)
-  #imprime(obj)
-  #obj = copy.deepcopy(cubo)
-  #print('Aplicando rotacao f(cubo)...')
-  #f(obj)
-  #imprime(obj)
-  #obj = copy.deepcopy(cubo)
-  #print('Aplicando rotacao b(cubo)...')
-  #b(obj)
-  #imprime(obj)
-  #obj = copy.deepcopy(cubo)
-  #print('Aplicando rotacao r(cubo)...')
-  #r(obj)
-  #imprime(obj)
-  #obj = copy.deepcopy(cubo)
-  #print('Aplicando rotacao l(cubo)...')
-  #l(obj)
-  #imprime(obj)
+  #rubik = [['0o','1o','2o','3o','4o','5o','6o','7o','8o'],
+  #      ['0g','1g','2g','3g','4g','5g','6g','7g','8g'],
+  #      ['0w','1w','2w','3w','4w','5w','6w','7w','8w'],
+  #      ['0b','1b','2b','3b','4b','5b','6b','7b','8b'],
+  #      ['0y','1y','2y','3y','4y','5y','6y','7y','8y'],
+  #      ['0r','1r','2r','3r','4r','5r','6r','7r','8r']]
 
   obj = deepcopy(rubik)
-  print('Antes de embaralhar:')
-  imprime(obj)
-  #embaralha(rubik, nivel)
-  print('Depois de embaralhado:')
+  # U  B  Li  B  L
+  #embaralha(rubik, 5)
+  #u(rubik)
+  #b(rubik)
+  #li(rubik)
+  #b(rubik)
+  #l(rubik)
+  #print('u, b, li, b, l')
 
- #R  Cx  Cxi  Cz2
-  print('antes')
-  imprime(rubik)
-  print('u')
-  u(rubik)
-  imprime(rubik)
-  print('r')
+  # Ri Di, R, D, Ri, Di, R
+  ri(rubik)
+  di(rubik)
   r(rubik)
+  d(rubik)
+  ri(rubik)
+  di(rubik)
+  r(rubik)
+  print('Ri Di, R, D, Ri, Di, R')
   imprime(rubik)
-  cx(rubik)
-  print('cx')
-  imprime(rubik)
-  cxi(rubik)
-  print('cxi')
-  imprime(rubik)
-  cz2(rubik)
-  imprime(rubik)
-  #rubik = deepcopy(obj)
-  #mx(rubik)
-  #print('mx')
-  #imprime(rubik)
-  #rubik = deepcopy(obj)
-  #mxi(rubik)
-  #print('mxi')
-  #imprime(rubik)
-  #rubik = deepcopy(obj)
-  #my(rubik)
-  #print('my')
-  #imprime(rubik)
-  #rubik = deepcopy(obj)
-  #myi(rubik)
-  #print('myi')
-  #imprime(rubik)
-  #rubik = deepcopy(obj)
-  #mz(rubik)
-  #print('mz')
-  #imprime(rubik)
-  #rubik = deepcopy(obj)
-  #mzi(rubik)
-  #print('mzi')
-  #imprime(rubik)
-
-
-#rodar cubo todo
-#       'Cx', 'Cxi', 'Cy', 'Cyi', 'Cz', 'Czi',
-
-  #rubik = deepcopy(obj)
-  #cx(rubik)
-  #print('cx')
-  #imprime(rubik)
-  #rubik = deepcopy(obj)
-  #cxi(rubik)
-  #print('cxi')
-  #imprime(rubik)
-  #rubik = deepcopy(obj)
-  #cy(rubik)
-  #print('cy')
-  #imprime(rubik)
-  #rubik = deepcopy(obj)
-  #cyi(rubik)
-  #print('cyi')
-  #imprime(rubik)
-  #rubik = deepcopy(obj)
-  #cz(rubik)
-  #print('cz')
-  #imprime(rubik)
-  #rubik = deepcopy(obj)
-  #czi(rubik)
-  #print('czi')
-  #imprime(rubik)
-  #rubik = deepcopy(obj)
-
 
   #buscar solucao
   print('Calculando solucao...')
   acoes=[]
-  #tempo, nodos = buscar(obj, rubik, 8, acoes)
-  tempo, nodos = busca(obj, rubik, 8, acoes)
 
-  print('Tempo total: %10.3f' % tempo, 's', ' Nodos: ', nodos, ' Nodos/s: %.3f' % (nodos/tempo))
+  #tempo, nodos =  busca(obj, rubik, 8, acoes)
+
+  #def __init__ ( self, o, c, nmax, natual, acoes):
+
+  tempo, nodos, acoes = busca(obj, rubik, 6)
+
+  #print(tempo, nodos, acoes)
+
+  #exit()
+  #tempo, nodos =  buscat.busca(obj, rubik, 6, acoes)
+
+  print('Total de tempo: %10.3f' % tempo, 's', '   Total de nodos: ', nodos, end='')
+  if tempo!=0:
+    print('   Nodos/s: %.3f' % (nodos/tempo))
+  else:
+    print('   Nodos/s: n/a')
   print('Solucao:')
-  for i in acoes:
-    print(nacao[i], ' ', end="")
+  if acoes == []:
+    print('[]', end='')
+  else:
+    for i in acoes:
+      print(nacao[i], ' ', end="")
   print()
-
-  soluciona(rubik, acoes)
-  print('Depois de solucionado:')
-  imprime(rubik)
 
 if __name__ == "__main__":
   main()
