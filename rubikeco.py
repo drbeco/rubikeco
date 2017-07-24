@@ -22,7 +22,7 @@ from random import randint
 from time import time
 import sys
 
-up=0; down=1; front=2; back=3; right=4; left=5;
+back=0; left=1; up=2; right=3; down=4; front=5; 
 achou = 0; nos = 0;
 
 def imprime(cubo):
@@ -93,9 +93,9 @@ def u(c): #rotacao up horario
   c[up][8]=fu[2]
   #down   #nada muda
   #front
-  c[front][0]=fr[0]
+  c[front][0]=fr[6]
   c[front][1]=fr[3]
-  c[front][2]=fr[6]
+  c[front][2]=fr[0]
   #back
   c[back][6]=fl[8]
   c[back][7]=fl[5]
@@ -133,21 +133,21 @@ def d(c): #rotacao down horario
   c[down][7]=fd[5]
   c[down][8]=fd[2]
   #front
-  c[front][6]=fl[6]
-  c[front][7]=fl[7]
-  c[front][8]=fl[8]
+  c[front][6]=fl[0]
+  c[front][7]=fl[3]
+  c[front][8]=fl[6]
   #back
-  c[back][6]=fr[6]
-  c[back][7]=fr[7]
-  c[back][8]=fr[8]
+  c[back][0]=fr[2]
+  c[back][1]=fr[5]
+  c[back][2]=fr[8]
   #right
-  c[right][6]=ff[6]
-  c[right][7]=ff[7]
-  c[right][8]=ff[8]
+  c[right][2]=ff[8]
+  c[right][5]=ff[7]
+  c[right][8]=ff[6]
   #left
-  c[left][6]=fb[6]
-  c[left][7]=fb[7]
-  c[left][8]=fb[8]
+  c[left][0]=fb[2]
+  c[left][3]=fb[1]
+  c[left][6]=fb[0]
 
 def di(c): #rotacao down anti-horario
   d(c)
@@ -162,13 +162,13 @@ def f(c): #rotacao front horario
   fr=c[right][:] #right = blue
   fl=c[left][:] #left = green
   #up
-  c[up][6]=fl[8]
-  c[up][7]=fl[5]
-  c[up][8]=fl[2]
+  c[up][6]=fl[6]
+  c[up][7]=fl[7]
+  c[up][8]=fl[8]
   #down
-  c[down][0]=fr[6]
-  c[down][1]=fr[3]
-  c[down][2]=fr[0]
+  c[down][6]=fr[6]
+  c[down][7]=fr[7]
+  c[down][8]=fr[8]
   #front
   c[front][0]=ff[6]
   c[front][1]=ff[3]
@@ -181,13 +181,13 @@ def f(c): #rotacao front horario
   c[front][8]=ff[2]
   #back  #nada muda
   #right
-  c[right][0]=fu[6]
-  c[right][3]=fu[7]
-  c[right][6]=fu[8]
+  c[right][6]=fu[6]
+  c[right][7]=fu[7]
+  c[right][8]=fu[8]
   #left
-  c[left][2]=fd[0]
-  c[left][5]=fd[1]
-  c[left][8]=fd[2]
+  c[left][6]=fd[6]
+  c[left][7]=fd[7]
+  c[left][8]=fd[8]
 
 def fi(c): #rotacao front anti-horario
   f(c)
@@ -202,13 +202,13 @@ def b(c): #rotacao back horario
   fr=c[right][:] #right = blue
   fl=c[left][:] #left = green
   #up 0
-  c[up][0]=fr[2]
-  c[up][1]=fr[5]
-  c[up][2]=fr[8]
+  c[up][0]=fr[0]
+  c[up][1]=fr[1]
+  c[up][2]=fr[2]
   #down 1
-  c[down][6]=fl[0]
-  c[down][7]=fl[3]
-  c[down][8]=fl[6]
+  c[down][0]=fl[0]
+  c[down][1]=fl[1]
+  c[down][2]=fl[2]
   #front 2 #nada muda
   #back 3
   c[back][0]=fb[6]
@@ -221,13 +221,13 @@ def b(c): #rotacao back horario
   c[back][7]=fb[5]
   c[back][8]=fb[2]
   #right 4
-  c[right][2]=fd[8]
-  c[right][5]=fd[7]
-  c[right][8]=fd[6]
+  c[right][0]=fd[0]
+  c[right][1]=fd[1]
+  c[right][2]=fd[2]
   #left 5
-  c[left][0]=fu[2]
-  c[left][3]=fu[1]
-  c[left][6]=fu[0]
+  c[left][0]=fu[0]
+  c[left][1]=fu[1]
+  c[left][2]=fu[2]
 
 def bi(c): #rotacao back anti-horario
   b(c)
@@ -246,17 +246,17 @@ def r(c): #rotacao right horario
   c[up][5]=ff[5]
   c[up][8]=ff[8]
   #down
-  c[down][8]=fb[0]
-  c[down][5]=fb[3]
-  c[down][2]=fb[6]
+  c[down][0]=fb[8]
+  c[down][3]=fb[5]
+  c[down][6]=fb[2]
   #front
-  c[front][2]=fd[2]
-  c[front][5]=fd[5]
-  c[front][8]=fd[8]
+  c[front][2]=fd[6]
+  c[front][5]=fd[3]
+  c[front][8]=fd[0]
   #back
-  c[back][0]=fu[8]
-  c[back][3]=fu[5]
-  c[back][6]=fu[2]
+  c[back][2]=fu[2]
+  c[back][5]=fu[5]
+  c[back][8]=fu[8]
   #right
   c[right][0]=fr[6]
   c[right][1]=fr[3]
@@ -282,21 +282,21 @@ def l(c): #rotacao left horario
   fr=c[right][:] #face right = blue - nao muda
   fl=c[left][:]  #face left  = green
   #up
-  c[up][0]=fb[8]
-  c[up][3]=fb[5]
-  c[up][6]=fb[2]
+  c[up][0]=fb[0]
+  c[up][3]=fb[3]
+  c[up][6]=fb[6]
   #down
-  c[down][0]=ff[0]
-  c[down][3]=ff[3]
-  c[down][6]=ff[6]
+  c[down][2]=ff[6]
+  c[down][5]=ff[3]
+  c[down][8]=ff[0]
   #front
   c[front][0]=fu[0]
   c[front][3]=fu[3]
   c[front][6]=fu[6]
   #back
-  c[back][2]=fd[6]
-  c[back][5]=fd[3]
-  c[back][8]=fd[0]
+  c[back][0]=fd[8]
+  c[back][3]=fd[5]
+  c[back][6]=fd[2]
   #right #nada muda
   #left
   c[left][0]=fl[6]
@@ -621,12 +621,12 @@ def main():
     nivel = 2
     print('Nivel maximo atual 8. Embaralhando com nivel 2.')
 
-  rubik = [['w','w','w','w','w','w','w','w','w'],
-        ['y','y','y','y','y','y','y','y','y'],
-        ['r','r','r','r','r','r','r','r','r'],
-        ['o','o','o','o','o','o','o','o','o'],
-        ['b','b','b','b','b','b','b','b','b'],
-        ['g','g','g','g','g','g','g','g','g']]
+  #rubik = [['w','w','w','w','w','w','w','w','w'],
+  #      ['y','y','y','y','y','y','y','y','y'],
+  #      ['r','r','r','r','r','r','r','r','r'],
+  #      ['o','o','o','o','o','o','o','o','o'],
+  #      ['b','b','b','b','b','b','b','b','b'],
+  #      ['g','g','g','g','g','g','g','g','g']]
   #cubo = [['0w','1w','2w','3w','4w','5w','6w','7w','8w'],
         #['0y','1y','2y','3y','4y','5y','6y','7y','8y'],
         #['0r','1r','2r','3r','4r','5r','6r','7r','8r'],
@@ -671,28 +671,37 @@ def main():
   #imprime(obj)
 
   obj = deepcopy(rubik)
-  print('Antes de embaralhar:')
-  imprime(obj)
+  #print('Antes de embaralhar:')
+  #imprime(obj)
   #embaralha(rubik, nivel)
-  print('Depois de embaralhado:')
+  #print('Depois de embaralhado:')
 
- #R  Cx  Cxi  Cz2
   print('antes')
   imprime(rubik)
-  print('u')
-  u(rubik)
-  imprime(rubik)
-  print('r')
-  r(rubik)
-  imprime(rubik)
-  cx(rubik)
+
+  #R  Cx  Cxi  Cz2
+  #print('d')
+  #d(rubik)
+  #imprime(rubik)
+
+  #print('u')
+  #u(rubik)
+  #imprime(rubik)
+
+  #print('b')
+  #b(rubik)
+  #imprime(rubik)
+
   print('cx')
+  cx(rubik)
   imprime(rubik)
-  cxi(rubik)
-  print('cxi')
-  imprime(rubik)
-  cz2(rubik)
-  imprime(rubik)
+
+  #print('cxi')
+  #cxi(rubik)
+  #imprime(rubik)
+
+  #cz2(rubik)
+  #imprime(rubik)
   #rubik = deepcopy(obj)
   #mx(rubik)
   #print('mx')
@@ -751,6 +760,7 @@ def main():
 
   #buscar solucao
   print('Calculando solucao...')
+  return
   acoes=[]
   #tempo, nodos = buscar(obj, rubik, 8, acoes)
   tempo, nodos = busca(obj, rubik, 8, acoes)
@@ -761,7 +771,7 @@ def main():
     print(nacao[i], ' ', end="")
   print()
 
-  soluciona(rubik, acoes)
+  soluciona(rubik, acoes)  
   print('Depois de solucionado:')
   imprime(rubik)
 
