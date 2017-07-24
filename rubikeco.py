@@ -26,6 +26,35 @@ up=0; down=1; front=2; back=3; right=4; left=5;
 achou = 0; nos = 0;
 
 def imprime(cubo):
+  """
+    Imprime o cubo 'desmontado'
+  """
+  print("             B")
+  print("          ", end='')
+  for p in range(9):
+    if p%3==0 and p!=0:
+      print()
+      print("          ", end='')
+    print(cubo[0][p], '', end='')
+  print()
+  print("   L         U         R         D")
+  for p in range(3):
+    for f in range(1,5):
+      print(cubo[f][p*3+0], cubo[f][p*3+1], cubo[f][p*3+2], " ", end='')
+    print()
+  print("             F")
+  print("          ", end='')
+  for p in range(9):
+    if p%3==0 and p!=0:
+      print()
+      print("          ", end='')
+    print(cubo[5][p], '', end='')
+  print()
+
+def imprimefaces(cubo):
+  """
+    Imprime o cubo, cada face separadamente
+  """
   for f in range(6):
     if f==up:
       print("up:")
@@ -65,20 +94,20 @@ def u(c): #rotacao up horario
   #down   #nada muda
   #front
   c[front][0]=fr[0]
-  c[front][1]=fr[1]
-  c[front][2]=fr[2]
+  c[front][1]=fr[3]
+  c[front][2]=fr[6]
   #back
-  c[back][0]=fl[0]
-  c[back][1]=fl[1]
-  c[back][2]=fl[2]
+  c[back][6]=fl[8]
+  c[back][7]=fl[5]
+  c[back][8]=fl[2]
   #right
-  c[right][0]=fb[0]
-  c[right][1]=fb[1]
-  c[right][2]=fb[2]
+  c[right][0]=fb[6]
+  c[right][3]=fb[7]
+  c[right][6]=fb[8]
   #left
-  c[left][0]=ff[0]
-  c[left][1]=ff[1]
-  c[left][2]=ff[2]
+  c[left][2]=ff[0]
+  c[left][5]=ff[1]
+  c[left][8]=ff[2]
 
 def ui(c): #rotacao up anti-horario
   u(c)
