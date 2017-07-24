@@ -470,6 +470,21 @@ def cz2(c): #rotacao dupla do cubo inteiro, eixo z
 # y=u=di=ei
 # z=f=bi=s
 
+# Testes
+# cubo pronto
+# CFOP:
+#   cruz branca (cor neutra)
+#   face branca
+#   2 camadas
+#   topo amarelo
+#   topo amarelo com cantos
+# Roux
+#   1 bloco 1x2x3
+#   2 blocos 1x2x3
+# Petrus
+#   bloco 2x2x2
+# X corner first
+#   todas quinas
 
 acao=[u, ui, d, di, f, fi, b, bi, r, ri, l, li,
       mx, mxi, my, myi, mz, mzi,
