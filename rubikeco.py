@@ -1036,7 +1036,9 @@ def main():
 if __name__ == "__main__":
     main()
 
-#/* --------------------------------------------------------------------------- */
-#/* vi: set ai et ts=4 sw=4 tw=0 wm=0 fo=croql : Python config for Vim modeline */
-#/* Template by Dr. Beco <rcb at beco dot cc>           Version 20170724.161751 */
+
+#/* ------------------------------------------------------------------------ */
+#/* Python config for Vim modeline                                           */
+#/* vi: set ai sta et ts=8 sts=4 sw=4 tw=79 wm=0 cc=+1 lbr fo=croq :         */
+#/* Template by Dr. Beco <rcb at beco dot cc>        Version 20170724.161751 */
 
