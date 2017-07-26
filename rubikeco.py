@@ -166,6 +166,10 @@ def di(c): #rotacao down anti-horario
     c[right][2]=fb[0]
     c[right][5]=fb[1]
     c[right][8]=fb[2]
+    #left
+    c[left][0]=fr[6]
+    c[left][3]=fr[7]
+    c[left][6]=fr[8]
 
 def f(c): #rotacao front horario
     fu=c[up][:] #up = white
@@ -232,6 +236,10 @@ def fi(c): #rotacao front anti-horario
     c[right][6]=fr[6]
     c[right][7]=fr[7]
     c[right][8]=fr[8]
+    #left
+    c[left][6]=fl[6]
+    c[left][7]=fl[7]
+    c[left][8]=fl[8]
 
 def b(c): #rotacao back horario
     fu=c[up][:] #up = white
@@ -288,7 +296,7 @@ def bi(c): #rotacao back anti-horario
     c[back][0]=fb[2]
     c[back][1]=fb[5]
     c[back][2]=fb[8]
-    c[back][3]=fb[2]
+    c[back][3]=fb[1]
     c[back][4]=fb[4]
     c[back][5]=fb[7]
     c[back][6]=fb[0]
@@ -298,6 +306,10 @@ def bi(c): #rotacao back anti-horario
     c[right][0]=fu[0]
     c[right][1]=fu[1]
     c[right][2]=fu[2]
+    #left
+    c[left][0]=fd[0]
+    c[left][1]=fd[1]
+    c[left][2]=fd[2]
 
 def r(c): #rotacao right horario
     fu=c[up][:]    #face up    = white
@@ -367,6 +379,7 @@ def ri(c): #rotacao right anti-horario
     c[right][6]=fr[0]
     c[right][7]=fr[3]
     c[right][8]=fr[6]
+    #left
 
 def l(c): #rotacao left horario
     fu=c[up][:]    #face up    = white
@@ -411,9 +424,9 @@ def li(c): #rotacao left anti-horario
     fr=c[right][:] #face right = blue
     fl=c[left][:]  #face left  = green
     #up
-    c[up][0]=fr[6]
-    c[up][3]=fr[3]
-    c[up][6]=fr[6]
+    c[up][0]=ff[0]
+    c[up][3]=ff[3]
+    c[up][6]=ff[6]
     #down
     c[down][2]=fb[6]
     c[down][5]=fb[3]
@@ -427,6 +440,16 @@ def li(c): #rotacao left anti-horario
     c[back][3]=fu[3]
     c[back][6]=fu[6]
     #right
+    #left
+    c[left][0]=fl[2]
+    c[left][1]=fl[5]
+    c[left][2]=fl[8]
+    c[left][3]=fl[1]
+    c[left][4]=fl[4]
+    c[left][5]=fl[7]
+    c[left][6]=fl[0]
+    c[left][7]=fl[3]
+    c[left][8]=fl[6]
 
 #Rotacionar o cubo inteiro
 #Cx, Cxi, Cy, Cyi, Cz, Czi
