@@ -451,211 +451,6 @@ def li(c): #rotacao left anti-horario
     c[left][7]=fl[3]
     c[left][8]=fl[6]
 
-#Rotacionar o cubo inteiro
-#Cx, Cxi, Cy, Cyi, Cz, Czi
-#  rubik = [ U = ['w','w','w','w','w','w','w','w','w'],
-#            D = ['y','y','y','y','y','y','y','y','y'],
-#            F = ['r','r','r','r','r','r','r','r','r'],
-#            B = ['o','o','o','o','o','o','o','o','o'],
-#            R = ['b','b','b','b','b','b','b','b','b'],
-#            L = ['g','g','g','g','g','g','g','g','g']]
-
-#Cx: cubo tomba para tras
-#Cy: cubo gira na mesa
-#Cz: cubo gira tomba para direita
-
-def cx(c): #rotacao do cubo inteiro, eixo x, horario (cubo tomba para trás)
-    fu=c[up][:]    #face up    = white
-    fd=c[down][:]  #face down  = yellow
-    ff=c[front][:] #face front = red
-    fb=c[back][:]  #face back  = orange
-    fr=c[right][:] #face right = blue - nao muda
-    fl=c[left][:]  #face left  = green
-    #up
-    c[up]=ff
-    #down
-    fb.reverse()
-    c[down]=fb
-    #front
-    fd.reverse()
-    c[front]=fd
-    #back
-    c[back]=fu
-    #right (r)
-    c[right][0]=fr[6]
-    c[right][1]=fr[3]
-    c[right][2]=fr[0]
-    c[right][3]=fr[7]
-    c[right][4]=fr[4]
-    c[right][5]=fr[1]
-    c[right][6]=fr[8]
-    c[right][7]=fr[5]
-    c[right][8]=fr[2]
-    #left (li)
-    c[left][0]=fl[2]
-    c[left][1]=fl[5]
-    c[left][2]=fl[8]
-    c[left][3]=fl[1]
-    c[left][4]=fl[4]
-    c[left][5]=fl[7]
-    c[left][6]=fl[0]
-    c[left][7]=fl[3]
-    c[left][8]=fl[6]
-
-def cxi(c): #rotacao do cubo inteiro, eixo x, anti-horario (cubo tomba para frente)
-    cx(c)
-    cx(c)
-    cx(c)
-
-def cy(c): #rotacao do cubo inteiro, eixo y, horario (cubo gira na mesa)
-    fu=c[up][:]    #face up    = white
-    fd=c[down][:]  #face down  = yellow
-    ff=c[front][:] #face front = red
-    fb=c[back][:]  #face back  = orange
-    fr=c[right][:] #face right = blue - nao muda
-    fl=c[left][:]  #face left  = green
-    #up
-    c[up][0]=fu[6]
-    c[up][1]=fu[3]
-    c[up][2]=fu[0]
-    c[up][3]=fu[7]
-    c[up][4]=fu[4]
-    c[up][5]=fu[1]
-    c[up][6]=fu[8]
-    c[up][7]=fu[5]
-    c[up][8]=fu[2]
-    #down
-    c[down][0]=fd[2]
-    c[down][1]=fd[5]
-    c[down][2]=fd[8]
-    c[down][3]=fd[1]
-    c[down][4]=fd[4]
-    c[down][5]=fd[7]
-    c[down][6]=fd[0]
-    c[down][7]=fd[3]
-    c[down][8]=fd[6]
-    #front
-    c[front][0]=fr[6]
-    c[front][1]=fr[3]
-    c[front][2]=fr[0]
-    c[front][3]=fr[7]
-    c[front][4]=fr[4]
-    c[front][5]=fr[1]
-    c[front][6]=fr[8]
-    c[front][7]=fr[5]
-    c[front][8]=fr[2]
-    #back
-    c[back][0]=fl[6]
-    c[back][1]=fl[3]
-    c[back][2]=fl[0]
-    c[back][3]=fl[7]
-    c[back][4]=fl[4]
-    c[back][5]=fl[1]
-    c[back][6]=fl[8]
-    c[back][7]=fl[5]
-    c[back][8]=fl[2]
-    #right
-    c[right][0]=fb[6]
-    c[right][1]=fb[3]
-    c[right][2]=fb[0]
-    c[right][3]=fb[7]
-    c[right][4]=fb[4]
-    c[right][5]=fb[1]
-    c[right][6]=fb[8]
-    c[right][7]=fb[5]
-    c[right][8]=fb[2]
-    #left
-    c[left][0]=ff[6]
-    c[left][1]=ff[3]
-    c[left][2]=ff[0]
-    c[left][3]=ff[7]
-    c[left][4]=ff[4]
-    c[left][5]=ff[1]
-    c[left][6]=ff[8]
-    c[left][7]=ff[5]
-    c[left][8]=ff[2]
-
-def cyi(c): #rotacao do cubo inteiro, eixo y, anti-horario (cubo gira na mesa)
-    cy(c)
-    cy(c)
-    cy(c)
-
-def cz(c): #rotacao do cubo inteiro, eixo z, horario (cubo tomba para direita)
-    fu=c[up][:]    #face up    = white
-    fd=c[down][:]  #face down  = yellow
-    ff=c[front][:] #face front = red
-    fb=c[back][:]  #face back  = orange
-    fr=c[right][:] #face right = blue - nao muda
-    fl=c[left][:]  #face left  = green
-    #up
-    c[up]=fl
-    #down
-    c[down]=fr
-    #front
-    c[front][0]=ff[6]
-    c[front][1]=ff[3]
-    c[front][2]=ff[0]
-    c[front][3]=ff[7]
-    c[front][4]=ff[4]
-    c[front][5]=ff[1]
-    c[front][6]=ff[8]
-    c[front][7]=ff[5]
-    c[front][8]=ff[2]
-    #back
-    c[back][0]=fb[2]
-    c[back][1]=fb[5]
-    c[back][2]=fb[8]
-    c[back][3]=fb[1]
-    c[back][4]=fb[4]
-    c[back][5]=fb[7]
-    c[back][6]=fb[0]
-    c[back][7]=fb[3]
-    c[back][8]=fb[6]
-    #right
-    c[right]=fu
-    #left
-    c[left]=fd
-
-def czi(c): #rotacao do cubo inteiro, eixo z, anti-horario (cubo tomba para esquerda)
-    cz(c)
-    cz(c)
-    cz(c)
-
-#rotacoes da camada do meio, notacao:
-# m: rli; mi: ril
-# e: udi; ei: uid
-# s: fib; si: fbi
-
-def m(c): #rotacao da camada do meio, eixo x, horario (como l)
-    r(c)
-    li(c)
-    cxi(c)
-
-def mi(c): #rotacao da camada do meio, eixo x, anti-horario (como l)
-    ri(c)
-    l(c)
-    cx(c)
-
-def e(c): #rotacao da camada do meio, eixo y, horario (como d)
-    u(c)
-    di(c)
-    cyi(c)
-
-def ei(c): #rotacao da camada do meio, eixo y, anti-horario (como d)
-    ui(c)
-    d(c)
-    cy(c)
-
-def s(c): #rotacao da camada do meio, eixo z, horario (como f)
-    fi(c)
-    b(c)
-    cz(c)
-
-def si(c): #rotacao da camada do meio, eixo z, anti-horario (como f)
-    f(c)
-    bi(c)
-    czi(c)
-
 #rotacoes duplas: u2, d2, f2, b2, r2, l2, mx2, my2, mz2, cx2, cy2, cz2
 
 def u2(c): #rotacao dupla de cima
@@ -868,6 +663,104 @@ def l2(c): #rotacao dupla da esquerda
     c[left][7]=fl[1]
     c[left][8]=fl[0]
 
+#rotacoes da camada do meio, notacao:
+# m: rlixi; mi: ril
+# e: udiyi; ei: uid
+# s: fibz; si: fbi
+
+def m(c): #rotacao da camada do meio, eixo x, horario (como l)
+    fu=c[up][:]    #face up    = white
+    fd=c[down][:]  #face down  = yellow
+    ff=c[front][:] #face front = red
+    fb=c[back][:]  #face back  = orange
+    fr=c[right][:] #face right = blue
+    fl=c[left][:]  #face left  = green
+    #up
+    c[up][1]=fb[1]
+    c[up][4]=fb[4]
+    c[up][7]=fb[7]
+    #down
+    c[down][1]=ff[7]
+    c[down][4]=ff[4]
+    c[down][7]=ff[1]
+    #front
+    c[front][1]=fu[1]
+    c[front][4]=fu[4]
+    c[front][7]=fu[7]
+    #back
+    c[back][1]=fd[7]
+    c[back][4]=fd[4]
+    c[back][7]=fd[1]
+    #right
+    #left
+
+def mi(c): #rotacao da camada do meio, eixo x, anti-horario (como l)
+    ri(c)
+    l(c)
+    cx(c)
+
+def e(c): #rotacao da camada do meio, eixo y, horario (como d)
+    fu=c[up][:]    #face up    = white
+    fd=c[down][:]  #face down  = yellow
+    ff=c[front][:] #face front = red
+    fb=c[back][:]  #face back  = orange
+    fr=c[right][:] #face right = blue
+    fl=c[left][:]  #face left  = green
+    #up
+    #down
+    #front
+    c[front][3]=fr[7]
+    c[front][4]=fr[4]
+    c[front][5]=fr[1]
+    #back
+    c[back][3]=fl[7]
+    c[back][4]=fl[4]
+    c[back][5]=fl[1]
+    #right
+    c[right][1]=fb[3]
+    c[right][4]=fb[4]
+    c[right][7]=fb[5]
+    #left
+    c[left][1]=ff[3]
+    c[left][4]=ff[4]
+    c[left][7]=ff[5]
+
+def ei(c): #rotacao da camada do meio, eixo y, anti-horario (como d)
+    ui(c)
+    d(c)
+    cy(c)
+
+def s(c): #rotacao da camada do meio, eixo z, horario (como f)
+    fu=c[up][:]    #face up    = white
+    fd=c[down][:]  #face down  = yellow
+    ff=c[front][:] #face front = red
+    fb=c[back][:]  #face back  = orange
+    fr=c[right][:] #face right = blue
+    fl=c[left][:]  #face left  = green
+    #up
+    c[up][3]=fl[3]
+    c[up][4]=fl[4]
+    c[up][5]=fl[5]
+    #down
+    c[down][3]=fr[3]
+    c[down][4]=fr[4]
+    c[down][5]=fr[5]
+    #front
+    #back
+    #right
+    c[right][3]=fu[3]
+    c[right][4]=fu[4]
+    c[right][5]=fu[5]
+    #left
+    c[left][3]=fd[3]
+    c[left][4]=fd[4]
+    c[left][5]=fd[5]
+
+def si(c): #rotacao da camada do meio, eixo z, anti-horario (como f)
+    f(c)
+    bi(c)
+    czi(c)
+
 def m2(c): #rotacao dupla da camada do meio, eixo x
     m(c)
     m(c)
@@ -880,6 +773,176 @@ def s2(c): #rotacao dupla da camada do meio, eixo z
     s(c)
     s(c)
 
+#Rotacionar o cubo inteiro
+#Cx, Cxi, Cy, Cyi, Cz, Czi
+#  rubik = [ U = ['w','w','w','w','w','w','w','w','w'],
+#            D = ['y','y','y','y','y','y','y','y','y'],
+#            F = ['r','r','r','r','r','r','r','r','r'],
+#            B = ['o','o','o','o','o','o','o','o','o'],
+#            R = ['b','b','b','b','b','b','b','b','b'],
+#            L = ['g','g','g','g','g','g','g','g','g']]
+
+#Cx: cubo tomba para tras
+#Cy: cubo gira na mesa
+#Cz: cubo gira tomba para direita
+
+def cx(c): #rotacao do cubo inteiro, eixo x, horario (cubo tomba para trás)
+    fu=c[up][:]    #face up    = white
+    fd=c[down][:]  #face down  = yellow
+    ff=c[front][:] #face front = red
+    fb=c[back][:]  #face back  = orange
+    fr=c[right][:] #face right = blue - nao muda
+    fl=c[left][:]  #face left  = green
+    #up
+    c[up]=ff
+    #down
+    fb.reverse()
+    c[down]=fb
+    #front
+    fd.reverse()
+    c[front]=fd
+    #back
+    c[back]=fu
+    #right (r)
+    c[right][0]=fr[6]
+    c[right][1]=fr[3]
+    c[right][2]=fr[0]
+    c[right][3]=fr[7]
+    c[right][4]=fr[4]
+    c[right][5]=fr[1]
+    c[right][6]=fr[8]
+    c[right][7]=fr[5]
+    c[right][8]=fr[2]
+    #left (li)
+    c[left][0]=fl[2]
+    c[left][1]=fl[5]
+    c[left][2]=fl[8]
+    c[left][3]=fl[1]
+    c[left][4]=fl[4]
+    c[left][5]=fl[7]
+    c[left][6]=fl[0]
+    c[left][7]=fl[3]
+    c[left][8]=fl[6]
+
+def cxi(c): #rotacao do cubo inteiro, eixo x, anti-horario (cubo tomba para frente)
+    cx(c)
+    cx(c)
+    cx(c)
+
+def cy(c): #rotacao do cubo inteiro, eixo y, horario (cubo gira na mesa)
+    fu=c[up][:]    #face up    = white
+    fd=c[down][:]  #face down  = yellow
+    ff=c[front][:] #face front = red
+    fb=c[back][:]  #face back  = orange
+    fr=c[right][:] #face right = blue - nao muda
+    fl=c[left][:]  #face left  = green
+    #up
+    c[up][0]=fu[6]
+    c[up][1]=fu[3]
+    c[up][2]=fu[0]
+    c[up][3]=fu[7]
+    c[up][4]=fu[4]
+    c[up][5]=fu[1]
+    c[up][6]=fu[8]
+    c[up][7]=fu[5]
+    c[up][8]=fu[2]
+    #down
+    c[down][0]=fd[2]
+    c[down][1]=fd[5]
+    c[down][2]=fd[8]
+    c[down][3]=fd[1]
+    c[down][4]=fd[4]
+    c[down][5]=fd[7]
+    c[down][6]=fd[0]
+    c[down][7]=fd[3]
+    c[down][8]=fd[6]
+    #front
+    c[front][0]=fr[6]
+    c[front][1]=fr[3]
+    c[front][2]=fr[0]
+    c[front][3]=fr[7]
+    c[front][4]=fr[4]
+    c[front][5]=fr[1]
+    c[front][6]=fr[8]
+    c[front][7]=fr[5]
+    c[front][8]=fr[2]
+    #back
+    c[back][0]=fl[6]
+    c[back][1]=fl[3]
+    c[back][2]=fl[0]
+    c[back][3]=fl[7]
+    c[back][4]=fl[4]
+    c[back][5]=fl[1]
+    c[back][6]=fl[8]
+    c[back][7]=fl[5]
+    c[back][8]=fl[2]
+    #right
+    c[right][0]=fb[6]
+    c[right][1]=fb[3]
+    c[right][2]=fb[0]
+    c[right][3]=fb[7]
+    c[right][4]=fb[4]
+    c[right][5]=fb[1]
+    c[right][6]=fb[8]
+    c[right][7]=fb[5]
+    c[right][8]=fb[2]
+    #left
+    c[left][0]=ff[6]
+    c[left][1]=ff[3]
+    c[left][2]=ff[0]
+    c[left][3]=ff[7]
+    c[left][4]=ff[4]
+    c[left][5]=ff[1]
+    c[left][6]=ff[8]
+    c[left][7]=ff[5]
+    c[left][8]=ff[2]
+
+def cyi(c): #rotacao do cubo inteiro, eixo y, anti-horario (cubo gira na mesa)
+    cy(c)
+    cy(c)
+    cy(c)
+
+def cz(c): #rotacao do cubo inteiro, eixo z, horario (cubo tomba para direita)
+    fu=c[up][:]    #face up    = white
+    fd=c[down][:]  #face down  = yellow
+    ff=c[front][:] #face front = red
+    fb=c[back][:]  #face back  = orange
+    fr=c[right][:] #face right = blue - nao muda
+    fl=c[left][:]  #face left  = green
+    #up
+    c[up]=fl
+    #down
+    c[down]=fr
+    #front
+    c[front][0]=ff[6]
+    c[front][1]=ff[3]
+    c[front][2]=ff[0]
+    c[front][3]=ff[7]
+    c[front][4]=ff[4]
+    c[front][5]=ff[1]
+    c[front][6]=ff[8]
+    c[front][7]=ff[5]
+    c[front][8]=ff[2]
+    #back
+    c[back][0]=fb[2]
+    c[back][1]=fb[5]
+    c[back][2]=fb[8]
+    c[back][3]=fb[1]
+    c[back][4]=fb[4]
+    c[back][5]=fb[7]
+    c[back][6]=fb[0]
+    c[back][7]=fb[3]
+    c[back][8]=fb[6]
+    #right
+    c[right]=fu
+    #left
+    c[left]=fd
+
+def czi(c): #rotacao do cubo inteiro, eixo z, anti-horario (cubo tomba para esquerda)
+    cz(c)
+    cz(c)
+    cz(c)
+
 def cx2(c): #rotacao dupla do cubo inteiro, eixo x
     cx(c)
     cx(c)
@@ -891,6 +954,7 @@ def cy2(c): #rotacao dupla do cubo inteiro, eixo y
 def cz2(c): #rotacao dupla do cubo inteiro, eixo z
     cz(c)
     cz(c)
+
 
 acao=[u, ui, d, di, f, fi, b, bi, r, ri, l, li, u2, d2, f2, b2, r2, l2, 
       m, mi, e, ei, s, si, m2, e2, s2,
