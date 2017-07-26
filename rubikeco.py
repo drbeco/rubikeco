@@ -659,28 +659,214 @@ def si(c): #rotacao da camada do meio, eixo z, anti-horario (como f)
 #rotacoes duplas: u2, d2, f2, b2, r2, l2, mx2, my2, mz2, cx2, cy2, cz2
 
 def u2(c): #rotacao dupla de cima
-    u(c)
-    u(c)
+    fu=c[up][:]    #face up    = white
+    fd=c[down][:]  #face down  = yellow
+    ff=c[front][:] #face front = red
+    fb=c[back][:]  #face back  = orange
+    fr=c[right][:] #face right = blue
+    fl=c[left][:]  #face left  = green
+    #up
+    c[up][0]=fu[8]
+    c[up][1]=fu[7]
+    c[up][2]=fu[6]
+    c[up][3]=fu[5]
+    c[up][4]=fu[4]
+    c[up][5]=fu[3]
+    c[up][6]=fu[2]
+    c[up][7]=fu[1]
+    c[up][8]=fu[0]
+    #down
+    #front
+    c[front][0]=fb[8]
+    c[front][1]=fb[7]
+    c[front][2]=fb[6]
+    #back
+    c[back][6]=ff[2]
+    c[back][7]=ff[1]
+    c[back][8]=ff[0]
+    #right
+    c[right][0]=fl[8]
+    c[right][3]=fl[5]
+    c[right][6]=fl[2]
+    #left
+    c[left][2]=fr[6]
+    c[left][5]=fr[3]
+    c[left][8]=fr[0]
 
 def d2(c): #rotacao dupla de baixo
-    d(c)
-    d(c)
+    fu=c[up][:]    #face up    = white
+    fd=c[down][:]  #face down  = yellow
+    ff=c[front][:] #face front = red
+    fb=c[back][:]  #face back  = orange
+    fr=c[right][:] #face right = blue
+    fl=c[left][:]  #face left  = green
+    #up
+    #down
+    c[down][0]=fd[8]
+    c[down][1]=fd[7]
+    c[down][2]=fd[6]
+    c[down][3]=fd[5]
+    c[down][4]=fd[4]
+    c[down][5]=fd[3]
+    c[down][6]=fd[2]
+    c[down][7]=fd[1]
+    c[down][8]=fd[0]
+    #front
+    c[front][6]=fb[2]
+    c[front][7]=fb[1]
+    c[front][8]=fb[0]
+    #back
+    c[back][0]=ff[8]
+    c[back][1]=ff[7]
+    c[back][2]=ff[6]
+    #right
+    c[right][2]=fl[6]
+    c[right][5]=fl[3]
+    c[right][8]=fl[0]
+    #left
+    c[left][0]=fr[8]
+    c[left][3]=fr[5]
+    c[left][6]=fr[2]
 
 def f2(c): #rotacao dupla da frente
-    f(c)
-    f(c)
+    fu=c[up][:]    #face up    = white
+    fd=c[down][:]  #face down  = yellow
+    ff=c[front][:] #face front = red
+    fb=c[back][:]  #face back  = orange
+    fr=c[right][:] #face right = blue
+    fl=c[left][:]  #face left  = green
+    #up
+    c[up][6]=fd[6]
+    c[up][7]=fd[7]
+    c[up][8]=fd[8]
+    #down
+    c[down][6]=fu[6]
+    c[down][7]=fu[7]
+    c[down][8]=fu[8]
+    #front
+    c[front][0]=ff[8]
+    c[front][1]=ff[7]
+    c[front][2]=ff[6]
+    c[front][3]=ff[5]
+    c[front][4]=ff[4]
+    c[front][5]=ff[3]
+    c[front][6]=ff[2]
+    c[front][7]=ff[1]
+    c[front][8]=ff[0]
+    #back
+    #right
+    c[right][6]=fl[6]
+    c[right][7]=fl[7]
+    c[right][8]=fl[8]
+    #left
+    c[left][6]=fr[6]
+    c[left][7]=fr[7]
+    c[left][8]=fr[8]
 
 def b2(c): #rotacao dupla de trás
-    b(c)
-    b(c)
+    fu=c[up][:]    #face up    = white
+    fd=c[down][:]  #face down  = yellow
+    ff=c[front][:] #face front = red
+    fb=c[back][:]  #face back  = orange
+    fr=c[right][:] #face right = blue
+    fl=c[left][:]  #face left  = green
+    #up
+    c[up][0]=fd[0]
+    c[up][1]=fd[1]
+    c[up][2]=fd[2]
+    #down
+    c[down][0]=fu[0]
+    c[down][1]=fu[1]
+    c[down][2]=fu[2]
+    #front
+    #back
+    c[back][0]=fb[8]
+    c[back][1]=fb[7]
+    c[back][2]=fb[6]
+    c[back][3]=fb[5]
+    c[back][4]=fb[4]
+    c[back][5]=fb[3]
+    c[back][6]=fb[2]
+    c[back][7]=fb[1]
+    c[back][8]=fb[0]
+    #right
+    c[right][0]=fl[0]
+    c[right][1]=fl[1]
+    c[right][2]=fl[2]
+    #left
+    c[left][0]=fr[0]
+    c[left][1]=fr[1]
+    c[left][2]=fr[2]
 
 def r2(c): #rotacao dupla da direita
-    r(c)
-    r(c)
+    fu=c[up][:]    #face up    = white
+    fd=c[down][:]  #face down  = yellow
+    ff=c[front][:] #face front = red
+    fb=c[back][:]  #face back  = orange
+    fr=c[right][:] #face right = blue
+    fl=c[left][:]  #face left  = green
+    #up
+    c[up][2]=fd[6]
+    c[up][5]=fd[3]
+    c[up][8]=fd[0]
+    #down
+    c[down][0]=fu[8]
+    c[down][3]=fu[5]
+    c[down][6]=fu[2]
+    #front
+    c[front][2]=fb[2]
+    c[front][5]=fb[5]
+    c[front][8]=fb[8]
+    #back
+    c[back][2]=ff[2]
+    c[back][5]=ff[5]
+    c[back][8]=ff[8]
+    #right
+    c[right][0]=fr[8]
+    c[right][1]=fr[7]
+    c[right][2]=fr[6]
+    c[right][3]=fr[5]
+    c[right][4]=fr[4]
+    c[right][5]=fr[3]
+    c[right][6]=fr[2]
+    c[right][7]=fr[1]
+    c[right][8]=fr[0]
+    #left
 
 def l2(c): #rotacao dupla da esquerda
-    l(c)
-    l(c)
+    fu=c[up][:]    #face up    = white
+    fd=c[down][:]  #face down  = yellow
+    ff=c[front][:] #face front = red
+    fb=c[back][:]  #face back  = orange
+    fr=c[right][:] #face right = blue
+    fl=c[left][:]  #face left  = green
+    #up
+    c[up][0]=fd[8]
+    c[up][3]=fd[5]
+    c[up][6]=fd[2]
+    #down
+    c[down][2]=fu[6]
+    c[down][5]=fu[3]
+    c[down][8]=fu[0]
+    #front
+    c[front][0]=fb[0]
+    c[front][3]=fb[3]
+    c[front][6]=fb[6]
+    #back
+    c[back][0]=ff[0]
+    c[back][3]=ff[3]
+    c[back][6]=ff[6]
+    #right
+    #left
+    c[left][0]=fl[8]
+    c[left][1]=fl[7]
+    c[left][2]=fl[6]
+    c[left][3]=fl[5]
+    c[left][4]=fl[4]
+    c[left][5]=fl[3]
+    c[left][6]=fl[2]
+    c[left][7]=fl[1]
+    c[left][8]=fl[0]
 
 def m2(c): #rotacao dupla da camada do meio, eixo x
     m(c)
