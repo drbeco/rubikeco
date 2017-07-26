@@ -167,9 +167,9 @@ def di(c): #rotacao down anti-horario
     c[right][5]=fb[1]
     c[right][8]=fb[2]
     #left
-    c[left][0]=fr[6]
-    c[left][3]=fr[7]
-    c[left][6]=fr[8]
+    c[left][0]=ff[6]
+    c[left][3]=ff[7]
+    c[left][6]=ff[8]
 
 def f(c): #rotacao front horario
     fu=c[up][:] #up = white
@@ -233,13 +233,13 @@ def fi(c): #rotacao front anti-horario
     c[front][8]=ff[6]
     #back
     #right
-    c[right][6]=fr[6]
-    c[right][7]=fr[7]
-    c[right][8]=fr[8]
+    c[right][6]=fd[6]
+    c[right][7]=fd[7]
+    c[right][8]=fd[8]
     #left
-    c[left][6]=fl[6]
-    c[left][7]=fl[7]
-    c[left][8]=fl[8]
+    c[left][6]=fu[6]
+    c[left][7]=fu[7]
+    c[left][8]=fu[8]
 
 def b(c): #rotacao back horario
     fu=c[up][:] #up = white
