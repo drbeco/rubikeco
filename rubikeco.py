@@ -33,7 +33,6 @@ rubik = [['0o','1o','2o','3o','4o','5o','6o','7o','8o'],
 
 def u(c): #rotacao up horario
     fu=c[up][:]    #face up    = white
-    fd=c[down][:]  #face down  = yellow - nao muda
     ff=c[front][:] #face front = red
     fb=c[back][:]  #face back  = orange
     fr=c[right][:] #face right = blue
@@ -68,7 +67,6 @@ def u(c): #rotacao up horario
 
 def ui(c): #rotacao up anti-horario
     fu=c[up][:]    #face up    = white
-    fd=c[down][:]  #face down  = yellow
     ff=c[front][:] #face front = red
     fb=c[back][:]  #face back  = orange
     fr=c[right][:] #face right = blue
@@ -102,7 +100,6 @@ def ui(c): #rotacao up anti-horario
     c[left][8]=fb[6]
 
 def d(c): #rotacao down horario
-    fu=c[up][:] #up = white -  nao muda
     fd=c[down][:] #down = yellow
     ff=c[front][:] #front = red
     fb=c[back][:] #back = orange
@@ -137,7 +134,6 @@ def d(c): #rotacao down horario
     c[left][6]=fb[0]
 
 def di(c): #rotacao down anti-horario
-    fu=c[up][:]    #face up    = white
     fd=c[down][:]  #face down  = yellow
     ff=c[front][:] #face front = red
     fb=c[back][:]  #face back  = orange
@@ -175,7 +171,6 @@ def f(c): #rotacao front horario
     fu=c[up][:] #up = white
     fd=c[down][:] #down = yellow
     ff=c[front][:] #front = red
-    fb=c[back][:] #back = orange - nao muda
     fr=c[right][:] #right = blue
     fl=c[left][:] #left = green
     #up
@@ -210,7 +205,6 @@ def fi(c): #rotacao front anti-horario
     fu=c[up][:]    #face up    = white
     fd=c[down][:]  #face down  = yellow
     ff=c[front][:] #face front = red
-    fb=c[back][:]  #face back  = orange
     fr=c[right][:] #face right = blue
     fl=c[left][:]  #face left  = green
     #up
@@ -244,7 +238,6 @@ def fi(c): #rotacao front anti-horario
 def b(c): #rotacao back horario
     fu=c[up][:] #up = white
     fd=c[down][:] #down = yellow
-    ff=c[front][:] #front = red - nao muda
     fb=c[back][:] #back = orange
     fr=c[right][:] #right = blue
     fl=c[left][:] #left = green
@@ -279,7 +272,6 @@ def b(c): #rotacao back horario
 def bi(c): #rotacao back anti-horario
     fu=c[up][:]    #face up    = white
     fd=c[down][:]  #face down  = yellow
-    ff=c[front][:] #face front = red
     fb=c[back][:]  #face back  = orange
     fr=c[right][:] #face right = blue
     fl=c[left][:]  #face left  = green
@@ -317,7 +309,6 @@ def r(c): #rotacao right horario
     ff=c[front][:] #face front = red
     fb=c[back][:]  #face back  = orange
     fr=c[right][:] #face right = blue
-    fl=c[left][:]  #face left  = green - nao muda
     #up
     c[up][2]=ff[2]
     c[up][5]=ff[5]
@@ -352,7 +343,6 @@ def ri(c): #rotacao right anti-horario
     ff=c[front][:] #face front = red
     fb=c[back][:]  #face back  = orange
     fr=c[right][:] #face right = blue
-    fl=c[left][:]  #face left  = green
     #up
     c[up][2]=fb[2]
     c[up][5]=fb[5]
@@ -386,7 +376,6 @@ def l(c): #rotacao left horario
     fd=c[down][:]  #face down  = yellow
     ff=c[front][:] #face front = red
     fb=c[back][:]  #face back  = orange
-    fr=c[right][:] #face right = blue - nao muda
     fl=c[left][:]  #face left  = green
     #up
     c[up][0]=fb[0]
@@ -421,7 +410,6 @@ def li(c): #rotacao left anti-horario
     fd=c[down][:]  #face down  = yellow
     ff=c[front][:] #face front = red
     fb=c[back][:]  #face back  = orange
-    fr=c[right][:] #face right = blue
     fl=c[left][:]  #face left  = green
     #up
     c[up][0]=ff[0]
@@ -455,7 +443,6 @@ def li(c): #rotacao left anti-horario
 
 def u2(c): #rotacao dupla de cima
     fu=c[up][:]    #face up    = white
-    fd=c[down][:]  #face down  = yellow
     ff=c[front][:] #face front = red
     fb=c[back][:]  #face back  = orange
     fr=c[right][:] #face right = blue
@@ -489,7 +476,6 @@ def u2(c): #rotacao dupla de cima
     c[left][8]=fr[0]
 
 def d2(c): #rotacao dupla de baixo
-    fu=c[up][:]    #face up    = white
     fd=c[down][:]  #face down  = yellow
     ff=c[front][:] #face front = red
     fb=c[back][:]  #face back  = orange
@@ -527,7 +513,6 @@ def f2(c): #rotacao dupla da frente
     fu=c[up][:]    #face up    = white
     fd=c[down][:]  #face down  = yellow
     ff=c[front][:] #face front = red
-    fb=c[back][:]  #face back  = orange
     fr=c[right][:] #face right = blue
     fl=c[left][:]  #face left  = green
     #up
@@ -561,7 +546,6 @@ def f2(c): #rotacao dupla da frente
 def b2(c): #rotacao dupla de trás
     fu=c[up][:]    #face up    = white
     fd=c[down][:]  #face down  = yellow
-    ff=c[front][:] #face front = red
     fb=c[back][:]  #face back  = orange
     fr=c[right][:] #face right = blue
     fl=c[left][:]  #face left  = green
@@ -599,7 +583,6 @@ def r2(c): #rotacao dupla da direita
     ff=c[front][:] #face front = red
     fb=c[back][:]  #face back  = orange
     fr=c[right][:] #face right = blue
-    fl=c[left][:]  #face left  = green
     #up
     c[up][2]=fd[6]
     c[up][5]=fd[3]
@@ -633,7 +616,6 @@ def l2(c): #rotacao dupla da esquerda
     fd=c[down][:]  #face down  = yellow
     ff=c[front][:] #face front = red
     fb=c[back][:]  #face back  = orange
-    fr=c[right][:] #face right = blue
     fl=c[left][:]  #face left  = green
     #up
     c[up][0]=fd[8]
@@ -673,8 +655,6 @@ def m(c): #rotacao da camada do meio, eixo x, horario (como l)
     fd=c[down][:]  #face down  = yellow
     ff=c[front][:] #face front = red
     fb=c[back][:]  #face back  = orange
-    fr=c[right][:] #face right = blue
-    fl=c[left][:]  #face left  = green
     #up
     c[up][1]=fb[1]
     c[up][4]=fb[4]
@@ -700,8 +680,6 @@ def mi(c): #rotacao da camada do meio, eixo x, anti-horario (como l)
     cx(c)
 
 def e(c): #rotacao da camada do meio, eixo y, horario (como d)
-    fu=c[up][:]    #face up    = white
-    fd=c[down][:]  #face down  = yellow
     ff=c[front][:] #face front = red
     fb=c[back][:]  #face back  = orange
     fr=c[right][:] #face right = blue
@@ -733,8 +711,6 @@ def ei(c): #rotacao da camada do meio, eixo y, anti-horario (como d)
 def s(c): #rotacao da camada do meio, eixo z, horario (como f)
     fu=c[up][:]    #face up    = white
     fd=c[down][:]  #face down  = yellow
-    ff=c[front][:] #face front = red
-    fb=c[back][:]  #face back  = orange
     fr=c[right][:] #face right = blue
     fl=c[left][:]  #face left  = green
     #up
