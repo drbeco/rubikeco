@@ -1154,7 +1154,7 @@ def busca(obj, cub, nmax, acoes):
 #back=0; left=1; up=2; right=3; down=4; front=5; 
 def objetivo(t, obj):
     """
-            Funcao que retorna verdadeiro/falso se o objetivo corrente foi alcancado
+        Funcao que retorna verdadeiro/falso se o objetivo corrente foi alcancado
     """
     if obj == 'white_up':
         if t[up][4] == '4w' and t[front][4] == '4r':
@@ -1247,17 +1247,68 @@ def main():
     #ei(emb)
 
     #Mi  Cz2  Li  U2
-    mi(emb)
-    cz2(emb)
-    li(emb)
-    u2(emb)
+    #mi(emb)
+    #cz2(emb)
+    #li(emb)
+    #u2(emb)
 
+    # Test superflip
+    # U R2 F B R B2 R U2 L B2 R
+    # Ui Di R2 F Ri L B2 U2 F2
+
+    # u(emb)
+    # r2(emb)
+    # f(emb)
+    # b(emb)
+    # r(emb)
+    # b2(emb)
+    # r(emb)
+    # u2(emb)
+    # l(emb)
+    # b2(emb)
+    # r(emb)
+    # ui(emb)
+    # di(emb)
+    # r2(emb)
+    # f(emb)
+    # ri(emb)
+    # l(emb)
+    # b2(emb)
+    # u2(emb)
+    # f2(emb)
+
+    # Test superflip XY2
+    # B L2 D U L U2 L B2 R U2 L
+    # Bi Fi L2 D Li R U2 B2 D2
+    
+    b(emb)
+    l2(emb)
+    d(emb)
+    u(emb)
+    l(emb)
+    u2(emb)
+    l(emb)
+    b2(emb)
+    r(emb)
+    u2(emb)
+    l(emb)
+    bi(emb)
+    fi(emb)
+    l2(emb)
+    d(emb)
+    li(emb)
+    r(emb)
+    u2(emb)
+    b2(emb)
+    d2(emb)
+   
     #embacoes=embaralha(emb, nivel)
     print('Depois de embaralhado:')
     imprime(emb)
     print('Embaralhado com:')
     #print('Xi, Ei')
     print('#Mi  Z2  Li  U2')
+    print('# U R2 F B R B2 R U2 L B2 R Ui Di R2 F Ri L B2 U2 F2')
     #imprimeacoes(embacoes)
 
 
